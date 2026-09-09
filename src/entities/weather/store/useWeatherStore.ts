@@ -3,9 +3,10 @@ import { Language } from '@/shared/types/language'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
-import { normalizeWeather } from '../api/model/normalizeWeather'
+
 import { getCurrentWeather } from '../api/weatherApi'
 import { Weather } from '../types/weather.types'
+import { normalizeWeather } from '../model/normalizeWeather'
 
 interface WeatherStore {
   weather: Weather | null
