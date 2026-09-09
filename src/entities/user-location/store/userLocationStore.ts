@@ -17,8 +17,8 @@ interface LocationStore {
   isLoading: boolean
   error: string | null
 
-  loadLocation: () => Promise<Coordinates | null>
-  refreshLocation: () => Promise<Coordinates | null>
+  loadLocation: () => Promise<Coordinates | null> // загрузка координат по jps устройства, если jps выключен то спрашиваем разрешение на jps, если его нет,
+  // то используем сохранёные кординаты либо будет not found
 }
 
 export const useUserLocationStore = create<LocationStore>()(
@@ -43,34 +43,21 @@ export const useUserLocationStore = create<LocationStore>()(
         error: null,
 
         loadLocation: async () => {
-          const { coordinates } = get()
-          if (coordinates) {
-            return coordinates
-          }
+          set({ isLoading: true, error: null })
           try {
+            // Получили свежие координаты с GPS
             const coordinates = await fetchLocation()
-            if (!coordinates) {
-              return null
+            if (coordinates) {
+              set({ coordinates })
             }
-            set({ coordinates })
-            return coordinates
-          } catch {
-            set({ error: 'Not found' })
+            // GPS недоступен → используем сохранённые координаты
+            const savedCoordinates = get().coordinates
+            if (savedCoordinates) {
+              return savedCoordinates
+            }
+            // Нет ни GPS, ни сохранённых координат
+            set({ error: 'Not Found' })
             return null
-          } finally {
-            set({ isLoading: false })
-          }
-        },
-
-        refreshLocation: async () => {
-          try {
-            set({ isLoading: true, error: null })
-            const coordinates = await fetchLocation()
-            if (!coordinates) {
-              return null
-            }
-            set({ coordinates })
-            return coordinates
           } catch {
             set({ error: 'Not found' })
             return null

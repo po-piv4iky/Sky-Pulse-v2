@@ -12,7 +12,11 @@ export function requestPermission(): Promise<Location.LocationPermissionResponse
 }
 
 //получение координат пользователя
-export async function getCurrentLocation(): Promise<Coordinates> {
+export async function getCurrentLocation(): Promise<Coordinates | null> {
+  const enabled = Location.hasServicesEnabledAsync()// проверка включённого jps
+  if (!enabled) {
+    return null
+  }
   const { coords } = await Location.getCurrentPositionAsync({
     accuracy: Location.Accuracy.High,
   })
