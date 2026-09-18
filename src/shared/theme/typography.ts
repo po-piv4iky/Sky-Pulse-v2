@@ -37,7 +37,7 @@ export const TYPOGRAPHY = StyleSheet.create({
   },
 
   LABEL_SM: {
-    fontSize: 11,
+    fontSize: 9,
     fontWeight: '500',
     lineHeight: 14,
   },

@@ -49,10 +49,12 @@ export const useUserLocationStore = create<LocationStore>()(
             const coordinates = await fetchLocation()
             if (coordinates) {
               set({ coordinates })
+              return coordinates
             }
             // GPS недоступен → используем сохранённые координаты
             const savedCoordinates = get().coordinates
             if (savedCoordinates) {
+              console.log('non gps')
               return savedCoordinates
             }
             // Нет ни GPS, ни сохранённых координат

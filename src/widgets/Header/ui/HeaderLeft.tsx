@@ -10,6 +10,7 @@ type HeaderLeftProps = {
 }
 
 export default function HeaderLeft({ title, iconName, onIconPress }: HeaderLeftProps) {
+  
   return (
     <View style={styles.titleContainer}>
       {iconName && (

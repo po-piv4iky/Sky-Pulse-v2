@@ -4,12 +4,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
-import { getCurrentWeather } from '../api/weatherApi'
-import { Weather } from '../types/weather.types'
+import { getCurrentWeather, getWeatherForecast } from '../api/weatherApi'
 import { normalizeWeather } from '../model/normalizeWeather'
+import { normalizeWeatherForecast } from '../model/normalizeWeatherForecast'
+import { Weather } from '../types/weather.types'
+import { WeatherForecast } from '../types/weatherForecast.types'
 
 interface WeatherStore {
   weather: Weather | null
+  weatherForecast: WeatherForecast[] | null
   hasHydrated: boolean
   isLoading: boolean
   error: string | null
@@ -21,6 +24,7 @@ export const useWeatherStore = create<WeatherStore>()(
   persist(
     (set) => ({
       weather: null,
+      weatherForecast: null,
       hasHydrated: false,
       isLoading: false,
       error: null,
@@ -28,13 +32,19 @@ export const useWeatherStore = create<WeatherStore>()(
       loadWeather: async (coord, language) => {
         try {
           set({ isLoading: true, error: null })
-          const response = await getCurrentWeather(
+          const responseCurrentWeather = await getCurrentWeather(
             coord.latitude,
             coord.longitude,
             language,
           )
-          const weather = normalizeWeather(response)
-          set({ weather })
+          const responseForecastWeather = await getWeatherForecast(
+            coord.latitude,
+            coord.longitude,
+            language,
+          )
+          const weather = normalizeWeather(responseCurrentWeather)
+          const weatherForecast = normalizeWeatherForecast(responseForecastWeather)
+          set({ weather, weatherForecast, error: null })
         } catch {
           set({ error: 'Failed to load weather' })
         } finally {

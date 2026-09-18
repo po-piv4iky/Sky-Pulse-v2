@@ -35,20 +35,23 @@ export const useInitializeApp = () => {
   const { i18n } = useTranslation()
   const language = i18n.language as Language //получаем текущий язык интерфейса
 
-  const hasHydrated = useUserLocationStore((s) => s.hasHydrated) //прошла гидрация или нет
+  const locationHasHydrated = useUserLocationStore((s) => s.hasHydrated)
+
+  const weatherHasHydrated = useWeatherStore((s) => s.hasHydrated) //прошла гидрация или нет
 
   const loadLocation = useUserLocationStore((s) => s.loadLocation) // функция запроса координат, или по jps, или по стору, или null
   const loadWeather = useWeatherStore((s) => s.loadWeather) //функция запроса погоды по координатам
 
   useEffect(() => {
-    if (!hasHydrated) {
+    if (!locationHasHydrated || !weatherHasHydrated) {
       return
     }
     const initializeApp = async () => {
       try {
         const coordinates = await loadLocation()
-        if (!coordinates) return
-
+        if (!coordinates) {
+          return
+        }
         const hasInternet = await isInternetAvailable()
 
         if (hasInternet) {
@@ -59,5 +62,5 @@ export const useInitializeApp = () => {
       }
     }
     initializeApp()
-  }, [language, hasHydrated, loadLocation, loadWeather])
+  }, [language, locationHasHydrated, weatherHasHydrated, loadLocation, loadWeather])
 }
