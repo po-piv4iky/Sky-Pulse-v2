@@ -12,14 +12,10 @@ export function normalizeWeather(data: WeatherApiResponse): Weather {
     temp: data.main.temp, // тумпература
     temp_max: data.main.temp_max,
     temp_min: data.main.temp_min,
+    feels_like: data.main.feels_like, //температура ощущается как
+    humidity: data.main.humidity, // влажность
+    wind: { speed: data.wind.speed, deg: data.wind.deg }, // скорость ветра в м/с и направление ветра в градусах
+    visibility: data.visibility, // видимость в км
+    pressure: data.main.pressure, // атмосферное давление
   }
 }
-
-// export function normalizeWeather(data: WeatherApiResponse): Weather {
-//   return {
-//     city: data.name,
-//     dt: data.dt,
-//     uri: getWeatherIconUrl(data.weather[0].icon),
-//     timezone: data.timezone,
-//   }
-// }

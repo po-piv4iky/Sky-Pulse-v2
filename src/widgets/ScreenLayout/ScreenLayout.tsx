@@ -1,17 +1,19 @@
 import { GradientBackground } from '@/shared/components/GradientBackground'
 import { usePathname } from 'expo-router'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { Header } from '../../widgets/Header'
 import { SCREEN_CONFIG } from './config/screen.config'
 
 type ScreenLayoutProps = {
   children: React.ReactNode
   scrollable?: boolean
+  contentStyle?: StyleProp<ViewStyle>
 }
 
 export default function ScreenLayout({
   children,
   scrollable = false,
+  contentStyle,
 }: ScreenLayoutProps) {
   const pathname = usePathname()
   const config =
@@ -23,12 +25,12 @@ export default function ScreenLayout({
       {scrollable ? (
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.content}
+          contentContainerStyle={[styles.content, contentStyle]}
         >
           {children}
         </ScrollView>
       ) : (
-        <View style={styles.content}>{children}</View>
+        <View style={[styles.content, contentStyle]}>{children}</View>
       )}
     </GradientBackground>
   )
@@ -37,6 +39,5 @@ export default function ScreenLayout({
 const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 24,
-    paddingBottom: 20,
   },
 })

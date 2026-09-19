@@ -5,19 +5,13 @@ import { formatDate } from '@/shared/date/formatDate'
 import { useCityTime } from '@/shared/hooks/useCityTime'
 import { Language } from '@/shared/types/language'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, View } from 'react-native'
-import ForecastCard from '../ForecastCard/ForecastCard'
+import { Image, StyleSheet, View } from 'react-native'
 
 export default function CurrentWeather() {
   const weather = useWeatherStore((s) => s.weather)
-  const weatherForecast = useWeatherStore((s) => s.weatherForecast)
-
   const { i18n } = useTranslation()
   const language = i18n.language as Language
-
-  if (!weather || !weatherForecast) return null
-
-  const visibleForecast = weatherForecast.slice(0, 7)
+  if (!weather) return null
 
   const time = useCityTime(weather.dt, weather.timezone)
   const date = formatDate(weather.dt, language)
@@ -58,25 +52,6 @@ export default function CurrentWeather() {
           </StyledText>
         </View>
       </View>
-
-      {/* HOURLY */}
-      <View style={styles.hourlySection}>
-        <View style={styles.sectionHeader}>
-          <StyledText style={styles.sectionTitle}>HOURLY FORECAST</StyledText>
-
-          <StyledText style={styles.sectionHint}>Next hours</StyledText>
-        </View>
-
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.forecastContent}
-        >
-          {visibleForecast.map((item) => (
-            <ForecastCard key={item.dt} item={item} timezone={weather.timezone} />
-          ))}
-        </ScrollView>
-      </View>
     </View>
   )
 }
@@ -84,7 +59,6 @@ export default function CurrentWeather() {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 24,
-    paddingBottom: 24,
   },
 
   locationBlock: {
@@ -104,7 +78,7 @@ const styles = StyleSheet.create({
 
   currentWeather: {
     alignItems: 'center',
-    marginTop: 24,
+    marginTop: 15,
   },
 
   icon: {
@@ -143,36 +117,5 @@ const styles = StyleSheet.create({
     height: 4,
     borderRadius: 2,
     opacity: 0.4,
-  },
-
-  hourlySection: {
-    marginTop: 34,
-  },
-
-  sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-
-  sectionTitle: {
-    fontSize: 13,
-    fontWeight: '600',
-    letterSpacing: 1,
-    opacity: 0.65,
-  },
-
-  sectionHint: {
-    fontSize: 12,
-    opacity: 0.4,
-  },
-
-  forecastContent: {
-    gap: 10,
-    paddingTop: 4,
-    paddingBottom: 8,
-    paddingRight: 20,
-    alignItems: 'flex-start',
   },
 })

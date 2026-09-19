@@ -1,9 +1,9 @@
 import { Coordinates } from '@/entities/user-location/types/coordinates.types'
 import { Language } from '@/shared/types/language'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
+import { storage } from '@/shared/storage/storage'
 import { getCurrentWeather, getWeatherForecast } from '../api/weatherApi'
 import { normalizeWeather } from '../model/normalizeWeather'
 import { normalizeWeatherForecast } from '../model/normalizeWeatherForecast'
@@ -42,6 +42,7 @@ export const useWeatherStore = create<WeatherStore>()(
             coord.longitude,
             language,
           )
+          console.log(responseCurrentWeather)
           const weather = normalizeWeather(responseCurrentWeather)
           const weatherForecast = normalizeWeatherForecast(responseForecastWeather)
           set({ weather, weatherForecast, error: null })
@@ -54,7 +55,7 @@ export const useWeatherStore = create<WeatherStore>()(
     }),
     {
       name: 'weather-store',
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => storage),
       partialize: (state) => ({ weather: state.weather }),
       onRehydrateStorage: () => {
         return () => {

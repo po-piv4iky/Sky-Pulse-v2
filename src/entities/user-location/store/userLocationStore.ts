@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { storage } from '@/shared/storage/storage'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import {
@@ -71,7 +71,7 @@ export const useUserLocationStore = create<LocationStore>()(
     },
     {
       name: 'user-location-storage',
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => storage),
       partialize: (state) => ({
         coordinates: state.coordinates,
         permission: state.permission,
