@@ -9,12 +9,13 @@ import { StyleSheet } from 'react-native'
 
 export default function Home() {
   const weather = useWeatherStore((s) => s.weather)
-  const isWeatherLoading = useWeatherStore((s) => s.isLoading)
+  const status = useWeatherStore((s) => s.weatherStatus)
+  const hasHydrated = useWeatherStore((s) => s.hasHydrated)
 
-  if (isWeatherLoading) {
+  if (!hasHydrated || status === 'idle' || status === 'loading') {
     return <Loader />
   }
-  if (!weather) return <WeatherNotFound />
+  if (status === 'error' || !weather) return <WeatherNotFound />
 
   return (
     <ScreenLayout scrollable contentStyle={styles.container}>
