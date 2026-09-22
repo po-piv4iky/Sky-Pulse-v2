@@ -1,8 +1,10 @@
 import { useWeatherStore } from '@/entities/weather/store/useWeatherStore'
+import CityClock from '@/shared/components/CityClock/CityClock'
 import StyledText from '@/shared/components/StyledText/StyledText'
-import { formatWeekday } from '@/shared/date/formarWeekDay'
-import { formatDate } from '@/shared/date/formatDate'
-import { useCityTime } from '@/shared/hooks/useCityTime'
+
+import { formatWeekday } from '@/shared/lib/date/formarWeekDay'
+import { formatDate } from '@/shared/lib/date/formatDate'
+import { getLocalDate } from '@/shared/lib/date/getLocalDate'
 import { Language } from '@/shared/types/language'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, View } from 'react-native'
@@ -12,9 +14,10 @@ export default function CurrentWeather() {
   const { i18n } = useTranslation()
   const language = i18n.language as Language
   if (!weather) return null
-
-  const time = useCityTime(weather.dt, weather.timezone)
+  const dt = getLocalDate(weather.dt, weather.timezone)
+  console.log(dt)
   const date = formatDate(weather.dt, language)
+  console.log(date)
   const weekDay = formatWeekday(weather.dt, language)
 
   return (
@@ -24,7 +27,7 @@ export default function CurrentWeather() {
         <StyledText style={styles.city}>{weather.city}</StyledText>
 
         <StyledText style={styles.date}>
-          {weekDay}, {date} · {time.hours}:{time.minutes}:{time.seconds}
+          {weekDay}, {date} · <CityClock />
         </StyledText>
       </View>
 

@@ -1,4 +1,4 @@
-import { getWeatherIconUrl } from '../lib/getWeatherIconUrl'
+import { getWeatherIconUrl } from '../../../shared/lib/getWeatherIconUrl'
 import { Weather } from '../types/weather.types'
 import { WeatherApiResponse } from '../types/weatherApiResponse.types'
 

@@ -1,6 +1,7 @@
 import { useWeatherStore } from '@/entities/weather/store/useWeatherStore'
 import Loader from '@/shared/components/Loader/Loader'
 import CurrentWeather from '@/widgets/CurrentWeather/CurrentWeather'
+import { DailyForecast } from '@/widgets/DailyForecast'
 import { HourlyForecast } from '@/widgets/HourlyForecast'
 import ScreenLayout from '@/widgets/ScreenLayout/ScreenLayout'
 import { WeatherDetails } from '@/widgets/WeatherDetails'
@@ -22,6 +23,7 @@ export default function Home() {
       <CurrentWeather />
       <HourlyForecast />
       <WeatherDetails />
+      <DailyForecast />
     </ScreenLayout>
   )
 }

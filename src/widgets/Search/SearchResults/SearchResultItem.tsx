@@ -1,8 +1,8 @@
-import { getWeatherIconUrl } from '@/entities/weather/lib/getWeatherIconUrl'
 import { SearchResult } from '@/features/search-city/searchResult.types'
 import Card from '@/shared/components/Card/Card'
 import StyledIcon from '@/shared/components/StyledIcon/StyledIcon'
 import StyledText from '@/shared/components/StyledText/StyledText'
+import { getWeatherIconUrl } from '@/shared/lib/getWeatherIconUrl'
 import { THEME } from '@/shared/theme'
 import { Image, StyleSheet, View } from 'react-native'
 

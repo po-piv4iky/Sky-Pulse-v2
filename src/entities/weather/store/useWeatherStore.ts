@@ -38,24 +38,11 @@ export const useWeatherStore = create<WeatherStore>()(
       loadWeather: async (coord, language) => {
         try {
           set({ weatherStatus: 'loading', error: null })
-          const responseCurrentWeather = await getCurrentWeather(
-            coord.latitude,
-            coord.longitude,
-            language,
-          )
-          const responseForecastWeather = await getWeatherForecast(
-            coord.latitude,
-            coord.longitude,
-            language,
-          )
-          //           const [
-          //   responseCurrentWeather,
-          //   responseForecastWeather,
-          // ] = await Promise.all([
-          //   getCurrentWeather(...),
-          //   getWeatherForecast(...),
-          // ])
-          console.log(responseCurrentWeather)
+          const [responseCurrentWeather, responseForecastWeather] = await Promise.all([
+            getCurrentWeather(coord.latitude, coord.longitude, language),
+            getWeatherForecast(coord.latitude, coord.longitude, language),
+          ])
+          console.log(responseForecastWeather)
           const weather = normalizeWeather(responseCurrentWeather)
           const weatherForecast = normalizeWeatherForecast(responseForecastWeather)
           set({ weather, weatherForecast, error: null, weatherStatus: 'success' })
