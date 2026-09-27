@@ -4,7 +4,6 @@ import StyledText from '@/shared/components/StyledText/StyledText'
 
 import { formatWeekday } from '@/shared/lib/date/formarWeekDay'
 import { formatDate } from '@/shared/lib/date/formatDate'
-import { getLocalDate } from '@/shared/lib/date/getLocalDate'
 import { Language } from '@/shared/types/language'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, View } from 'react-native'
@@ -14,10 +13,9 @@ export default function CurrentWeather() {
   const { i18n } = useTranslation()
   const language = i18n.language as Language
   if (!weather) return null
-  const dt = getLocalDate(weather.dt, weather.timezone)
-  console.log(dt)
+
   const date = formatDate(weather.dt, language)
-  console.log(date)
+
   const weekDay = formatWeekday(weather.dt, language)
 
   return (

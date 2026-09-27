@@ -17,5 +17,6 @@ export function groupForecastByDay(
   return Object.entries(grouped).map(([date, forecasts]) => ({
     date,
     forecasts,
+    timezone,
   }))
 }

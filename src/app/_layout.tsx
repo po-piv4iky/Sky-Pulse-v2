@@ -1,7 +1,7 @@
+import { useInitializeApp } from '@/features/initialize'
 import '@/shared/i18n/i18n'
 import { Stack } from 'expo-router'
 import { StatusBar } from 'react-native'
-import { useInitializeApp } from '../features/model/useInitializeApp'
 
 export default function RootLayout() {
   useInitializeApp()

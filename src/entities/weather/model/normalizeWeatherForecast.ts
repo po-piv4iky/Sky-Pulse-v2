@@ -2,6 +2,7 @@ import { getWeatherIconUrl } from '../../../shared/lib/getWeatherIconUrl'
 import { WeatherForecast } from '../types/weatherForecast.types'
 import { WeatherForecastResponse } from '../types/weatherForecastResponse.types'
 
+//возвращаем массив 40 объектов типа который собираем тут
 export function normalizeWeatherForecast(
   data: WeatherForecastResponse,
 ): WeatherForecast[] {
