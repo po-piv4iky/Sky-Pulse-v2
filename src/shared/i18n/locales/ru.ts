@@ -49,6 +49,13 @@ export const ru = {
         northWest: 'Северо-западный',
       },
     },
+    hourlyForecast: {
+      title: 'Почасовой прогноз',
+      nextHours: 'Ближайшие часы',
+    },
+    forecast: {
+      daily: 'Прогноз на 5 дней',
+    },
 
     settings: {
       title: 'Настройки',

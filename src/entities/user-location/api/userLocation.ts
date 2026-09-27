@@ -13,7 +13,7 @@ export function requestPermission(): Promise<Location.LocationPermissionResponse
 
 //получение координат пользователя
 export async function getCurrentLocation(): Promise<Coordinates | null> {
-  const enabled = Location.hasServicesEnabledAsync()// проверка включённого jps
+  const enabled = Location.hasServicesEnabledAsync() // проверка включённого jps
   if (!enabled) {
     return null
   }

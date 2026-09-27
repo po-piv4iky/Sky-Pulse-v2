@@ -43,7 +43,6 @@ export const useWeatherStore = create<WeatherStore>()(
             getWeatherForecast(coord.latitude, coord.longitude, language),
           ])
           const weather = normalizeWeather(responseCurrentWeather)
-          console.log(responseForecastWeather)
           const weatherForecast = normalizeWeatherForecast(responseForecastWeather)
           set({ weather, weatherForecast, error: null, weatherStatus: 'success' })
         } catch {

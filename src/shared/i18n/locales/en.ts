@@ -49,6 +49,13 @@ export const en = {
         northWest: 'Northwest',
       },
     },
+    hourlyForecast: {
+      title: 'Hourly forecast',
+      nextHours: 'Next hours',
+    },
+    forecast: {
+      daily: '5-day forecast',
+    },
 
     settings: {
       title: 'Settings',

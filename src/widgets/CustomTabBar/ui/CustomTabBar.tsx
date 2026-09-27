@@ -1,6 +1,8 @@
+import { useInitializationStore } from '@/features/initialize/model/initializationStore'
 import { THEME } from '@/shared/theme'
 import { Tabs } from 'expo-router'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
+import Animated, { FadeIn } from 'react-native-reanimated'
 import { TabName, tabsMap } from '../config/tabs.config'
 import TabItem from './TabItem'
 
@@ -9,8 +11,12 @@ type CustomTabBarProps = Parameters<
 >[0]
 
 export default function CustomTabBar({ state, navigation }: CustomTabBarProps) {
+  const status = useInitializationStore((s) => s.status)
+  if (status !== 'success') {
+    return null
+  }
   return (
-    <View style={styles.container}>
+    <Animated.View entering={FadeIn.duration(400).delay(100)} style={styles.container}>
       {state.routes.map((route, index) => {
         const focused = state.index === index
         const tab = tabsMap[route.name as TabName]
@@ -44,7 +50,7 @@ export default function CustomTabBar({ state, navigation }: CustomTabBarProps) {
           />
         )
       })}
-    </View>
+    </Animated.View>
   )
 }
 
