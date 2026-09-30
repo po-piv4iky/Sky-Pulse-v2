@@ -1,9 +1,13 @@
 export type Weather = {
+  id: string
   city: string
   dt: number
   uri: string | null
   timezone: number
+  lat: number
+  lon: number
   description: string
+  country: string
   temp: number
   temp_max: number
   temp_min: number

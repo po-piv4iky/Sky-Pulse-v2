@@ -1,10 +1,11 @@
+import SavedCities from '@/widgets/SavedCities/SavedCities'
 import ScreenLayout from '@/widgets/ScreenLayout/ScreenLayout'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 export default function SavedPage() {
   return (
     <ScreenLayout>
-      <Text>Save</Text>
+      <SavedCities />
     </ScreenLayout>
   )
 }

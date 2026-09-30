@@ -3,10 +3,10 @@ import { getCurrentWeather } from '@/entities/weather/api/weatherApi'
 import { Language } from '@/shared/types/language'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SearchResult } from '../searchResult.types'
+import { SearchCityResult } from '../../../entities/city/types/searchCityResult.types'
 
 export function useSearchCity(query: string) {
-  const [results, setResults] = useState<SearchResult[]>([])
+  const [results, setResults] = useState<SearchCityResult[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -27,12 +27,12 @@ export function useSearchCity(query: string) {
         setError(null)
 
         const cities = await getCities(normalizedQuery)
-
         const results = await Promise.all(
           cities.map(async (city) => {
             const weather = await getCurrentWeather(city.lat, city.lon, language)
 
             return {
+              id: `${city.lat}-${city.lon}`,
               name: weather.name,
               lat: city.lat,
               lon: city.lon,
@@ -40,10 +40,10 @@ export function useSearchCity(query: string) {
               state: city.state,
               temperature: weather.main.temp,
               icon: weather.weather[0].icon,
+              description: weather.weather[0].description,
             }
           }),
         )
-
         setResults(results)
       } catch {
         setError('Не удалось выполнить поиск')

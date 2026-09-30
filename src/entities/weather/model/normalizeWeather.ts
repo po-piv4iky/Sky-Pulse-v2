@@ -4,10 +4,14 @@ import { WeatherApiResponse } from '../types/weatherApiResponse.types'
 
 export function normalizeWeather(data: WeatherApiResponse): Weather {
   return {
+    id: `${data.coord.lat}-${data.coord.lon}`,
     city: data.name, // город
     dt: data.dt, // дата в секундах
     uri: getWeatherIconUrl(data.weather[0].icon), //иконка
     description: data.weather[0].description,
+    lat: data.coord.lat,
+    lon: data.coord.lon,
+    country: data.sys.country,
     timezone: data.timezone,
     temp: data.main.temp, // тумпература
     temp_max: data.main.temp_max,

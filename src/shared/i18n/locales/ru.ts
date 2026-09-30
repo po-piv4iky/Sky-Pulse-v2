@@ -49,6 +49,10 @@ export const ru = {
         northWest: 'Северо-западный',
       },
     },
+    savedCity: {
+      added: 'Город добавлен',
+      removed: 'Город удалён',
+    },
     hourlyForecast: {
       title: 'Почасовой прогноз',
       nextHours: 'Ближайшие часы',

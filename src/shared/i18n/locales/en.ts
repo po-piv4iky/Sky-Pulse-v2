@@ -49,6 +49,10 @@ export const en = {
         northWest: 'Northwest',
       },
     },
+    savedCity: {
+      added: 'City added',
+      removed: 'City removed',
+    },
     hourlyForecast: {
       title: 'Hourly forecast',
       nextHours: 'Next hours',

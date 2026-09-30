@@ -1,4 +1,4 @@
-import { SearchResult } from '@/features/search-city/searchResult.types'
+import { SearchCityResult } from '@/entities/city/types/searchCityResult.types'
 import Card from '@/shared/components/Card/Card'
 import StyledIcon from '@/shared/components/StyledIcon/StyledIcon'
 import StyledText from '@/shared/components/StyledText/StyledText'
@@ -7,11 +7,11 @@ import { THEME } from '@/shared/theme'
 import { Image, StyleSheet, View } from 'react-native'
 
 interface Props {
-  cityItem: SearchResult
-  onPress: (city: SearchResult) => void
+  cityItem: SearchCityResult
+  onPress: (city: SearchCityResult) => void
 }
 
-export default function SearchResultItem({ cityItem, onPress }: Props) {
+export default function SearchCityItem({ cityItem, onPress }: Props) {
   const iconUrl = getWeatherIconUrl(cityItem.icon)
 
   return (

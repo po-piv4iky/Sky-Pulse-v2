@@ -9,6 +9,7 @@ import { StyleSheet } from 'react-native'
 export default function SearchPage() {
   const [text, setText] = useState('')
   const { results, isLoading, error } = useSearchCity(text)
+  console.log(results)
   return (
     <GradientBackground
       style={styles.container}

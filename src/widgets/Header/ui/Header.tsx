@@ -4,6 +4,10 @@ import { SCREEN_CONFIG } from '@/widgets/ScreenLayout/config/screen.config'
 import { useRouter } from 'expo-router'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
+
+import { useWeatherStore } from '@/entities/weather/store/useWeatherStore'
+import SaveCityButton from '@/features/save-city/ui/SaveCityButton'
+
 import HeaderLeft from './HeaderLeft'
 
 type HeaderProps = {
@@ -11,9 +15,8 @@ type HeaderProps = {
 }
 
 export default function Header({ config }: HeaderProps) {
-  // const title = config.showLocation ? (city ?? config.title) : config.title
   const { t } = useTranslation()
-
+  const weather = useWeatherStore((s) => s.weather)
   const router = useRouter()
   const handleSearchPress = () => {
     router.push('/search')
@@ -22,6 +25,23 @@ export default function Header({ config }: HeaderProps) {
   return (
     <View style={styles.container}>
       <HeaderLeft title={t(config.titleKey)} iconName={config.iconName} />
+
+      {config.buttonSave && (
+        <SaveCityButton
+          city={
+            weather
+              ? {
+                  id: `${weather.lat}-${weather.lon}`,
+                  name: weather.city,
+                  country: weather.country,
+                  latitude: weather.lat,
+                  longitude: weather.lon,
+                }
+              : null
+          }
+        />
+      )}
+
       {config.showSearch && <IconButton name="search" onPress={handleSearchPress} />}
     </View>
   )
