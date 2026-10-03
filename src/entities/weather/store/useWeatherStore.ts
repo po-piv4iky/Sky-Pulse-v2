@@ -10,6 +10,7 @@ import { normalizeWeatherForecast } from '../model/normalizeWeatherForecast'
 import { Weather } from '../types/weather.types'
 import { WeatherForecast } from '../types/weatherForecast.types'
 
+export type LoadWeatherResult = 'success' | 'error'
 export type WeatherStatus =
   | 'idle' // Загрузка ещё не запускалась
   | 'loading' // Выполняется запрос к API
@@ -23,7 +24,7 @@ interface WeatherStore {
   weatherStatus: WeatherStatus
   error: string | null
 
-  loadWeather: (coord: Coordinates, language: Language) => Promise<void>
+  loadWeather: (coord: Coordinates, language: Language) => Promise<LoadWeatherResult>
 }
 
 export const useWeatherStore = create<WeatherStore>()(
@@ -45,8 +46,10 @@ export const useWeatherStore = create<WeatherStore>()(
           const weather = normalizeWeather(responseCurrentWeather)
           const weatherForecast = normalizeWeatherForecast(responseForecastWeather)
           set({ weather, weatherForecast, error: null, weatherStatus: 'success' })
+          return 'success'
         } catch {
           set({ error: 'Failed to load weather', weatherStatus: 'error' })
+          return 'error'
         }
       },
     }),

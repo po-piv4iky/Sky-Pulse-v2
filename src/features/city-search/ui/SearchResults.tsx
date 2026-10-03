@@ -1,10 +1,6 @@
 import { SearchCityResult } from '@/entities/city/types/searchCityResult.types'
-import { useWeatherStore } from '@/entities/weather/store/useWeatherStore'
 import Loader from '@/shared/components/Loader/Loader'
 import StyledText from '@/shared/components/StyledText/StyledText'
-import { Language } from '@/shared/types/language'
-import { useRouter } from 'expo-router'
-import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View } from 'react-native'
 import SearchResultItem from '../../../entities/city/ui/SearchCityItem'
 
@@ -12,32 +8,16 @@ type SearchResultsProps = {
   results: SearchCityResult[]
   isLoading: boolean
   error: string | null
+  onCityPress: (city: SearchCityResult) => void
 }
 
-export default function SearchResults({ results, isLoading, error }: SearchResultsProps) {
-  const weatherStatus = useWeatherStore((s) => s.weatherStatus)
-  const { i18n } = useTranslation()
-  const router = useRouter()
-  const language = i18n.language as Language
-  const loadWeather = useWeatherStore((s) => s.loadWeather)
-  const handleCityPress = async (city: SearchCityResult) => {
-    await loadWeather(
-      {
-        latitude: city.lat,
-        longitude: city.lon,
-      },
-      language,
-    )
-    router.replace('/')
-  }
+export default function SearchResults({
+  results,
+  isLoading,
+  error,
+  onCityPress,
+}: SearchResultsProps) {
   if (isLoading) {
-    return (
-      <View>
-        <Loader />
-      </View>
-    )
-  }
-  if (weatherStatus === 'loading') {
     return (
       <View>
         <Loader />
@@ -57,16 +37,19 @@ export default function SearchResults({ results, isLoading, error }: SearchResul
   const uniqueResults = results.filter(
     (item, index, array) =>
       index ===
-      array.findIndex((result) => result.lat === item.lat && result.lon === item.lon),
+      array.findIndex(
+        (result) =>
+          result.latitude === item.latitude && result.longitude === item.longitude,
+      ),
   )
   return (
     <View style={{ gap: 15, paddingHorizontal: 20 }}>
       <FlatList
         data={uniqueResults}
         keyboardShouldPersistTaps="handled"
-        keyExtractor={(item) => `${item.lat}-${item.lon}`}
+        keyExtractor={(item) => `${item.latitude}-${item.longitude}`}
         renderItem={({ item }) => (
-          <SearchResultItem cityItem={item} onPress={handleCityPress} />
+          <SearchResultItem cityItem={item} onPress={onCityPress} />
         )}
       />
     </View>

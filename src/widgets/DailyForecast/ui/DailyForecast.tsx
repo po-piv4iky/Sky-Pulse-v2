@@ -27,7 +27,11 @@ export function DailyForecast() {
         <StyledText>{t('forecast.daily')}</StyledText>
       </View>
       {dailyForecast.map((item, index) => (
-        <ForecastCard key={item.date} item={item} isLast={index === dailyForecast.length - 1}/>
+        <ForecastCard
+          key={item.date}
+          item={item}
+          isLast={index === dailyForecast.length - 1}
+        />
       ))}
     </Card>
   )

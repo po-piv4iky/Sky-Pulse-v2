@@ -1,3 +1,4 @@
+import SearchInput from '@/features/city-search/ui/SearchInput'
 import IconButton from '@/shared/components/IconButton/IconButton'
 import { useRouter } from 'expo-router'
 import { useEffect } from 'react'
@@ -7,7 +8,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
-import SearchInput from './SearchInput'
 
 type SearchHeaderProps = {
   text: string

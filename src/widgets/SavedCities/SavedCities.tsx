@@ -10,6 +10,7 @@ import { FlatList } from 'react-native'
 
 export default function SavedCities() {
   const cities = useSavedCityStore((s) => s.cities)
+  console.log(cities)
   const { i18n } = useTranslation()
   const language = i18n.language as Language
   const [data, setData] = useState<SearchCityResult[]>([])
@@ -21,17 +22,13 @@ export default function SavedCities() {
       try {
         const result = await Promise.all(
           cities.map(async (city) => {
-            const weather = await getCurrentWeather(
-              city.latitude,
-              city.longitude,
-              language,
-            )
+            const weather = await getCurrentWeather(city.lat, city.lon, language)
 
             return {
               id: city.id,
               name: city.name,
-              latitude: city.latitude,
-              longitude: city.longitude,
+              lat: city.lat,
+              lon: city.lon,
               country: city.country,
               temperature: weather.main.temp,
               description: weather.weather[0].description,

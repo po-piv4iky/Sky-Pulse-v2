@@ -34,7 +34,7 @@ export default function Toast() {
   const duration = useToastStore((state) => state.duration) // время
   const hideToast = useToastStore((state) => state.hideToast) // скрыть тост
 
-  const opacity = useSharedValue(1)
+  const opacity = useSharedValue(0)
   const translateY = useSharedValue(30)
 
   // useEffect
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
 // visible = false
 // ↓
 // useEffect запускается
-// ↓                                                                                                        
+// ↓
 // Ничего не происходит.
 
 // Потом:

@@ -34,8 +34,8 @@ export default function Header({ config }: HeaderProps) {
                   id: `${weather.lat}-${weather.lon}`,
                   name: weather.city,
                   country: weather.country,
-                  latitude: weather.lat,
-                  longitude: weather.lon,
+                  lat: weather.lat,
+                  lon: weather.lon,
                 }
               : null
           }

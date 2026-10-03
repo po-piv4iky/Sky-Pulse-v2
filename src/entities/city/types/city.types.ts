@@ -3,6 +3,6 @@ export interface City {
   name: string
   country: string
   state?: string
-  latitude: number
-  longitude: number
+  lat: number
+  lon: number
 }
