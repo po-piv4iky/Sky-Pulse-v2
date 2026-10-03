@@ -10,7 +10,6 @@ import { FlatList } from 'react-native'
 
 export default function SavedCities() {
   const cities = useSavedCityStore((s) => s.cities)
-  console.log(cities)
   const { i18n } = useTranslation()
   const language = i18n.language as Language
   const [data, setData] = useState<SearchCityResult[]>([])
