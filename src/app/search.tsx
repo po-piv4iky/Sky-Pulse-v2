@@ -25,7 +25,7 @@ export default function SearchPage() {
         results={results}
         isLoading={isLoading || isSelectCityLoading}
         error={error || selectCityError}
-        onCityPress={selectCity}
+        selectCity={selectCity}
       />
     </GradientBackground>
   )

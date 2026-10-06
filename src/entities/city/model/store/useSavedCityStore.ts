@@ -9,6 +9,7 @@ interface SavedCityStore {
   toggleCity: (city: City) => void
   isCitySaved: (cityId: string) => boolean
   clearAllCities: () => void
+  removeCity: (cityId: string) => void
 }
 
 export const useSavedCityStore = create<SavedCityStore>()(
@@ -36,6 +37,9 @@ export const useSavedCityStore = create<SavedCityStore>()(
 
       clearAllCities: () => {
         set({ cities: [] })
+      },
+      removeCity: (cityId) => {
+        set((state) => ({ cities: state.cities.filter((item) => item.id !== cityId) }))
       },
     }),
 

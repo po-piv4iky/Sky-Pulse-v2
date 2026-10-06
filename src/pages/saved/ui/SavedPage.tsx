@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native'
 
 export default function SavedPage() {
   return (
-    <ScreenLayout>
+    <ScreenLayout scrollable>
       <CleanseAllCities />
 
       <SavedCities />

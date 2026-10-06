@@ -8,14 +8,14 @@ type SearchResultsProps = {
   results: SearchCityResult[]
   isLoading: boolean
   error: string | null
-  onCityPress: (city: SearchCityResult) => void
+  selectCity: (city: SearchCityResult) => void
 }
 
 export default function SearchResults({
   results,
   isLoading,
   error,
-  onCityPress,
+  selectCity,
 }: SearchResultsProps) {
   if (isLoading) {
     return (
@@ -37,19 +37,16 @@ export default function SearchResults({
   const uniqueResults = results.filter(
     (item, index, array) =>
       index ===
-      array.findIndex(
-        (result) =>
-          result.latitude === item.latitude && result.longitude === item.longitude,
-      ),
+      array.findIndex((result) => result.lat === item.lat && result.lon === item.lon),
   )
   return (
     <View style={{ gap: 15, paddingHorizontal: 20 }}>
       <FlatList
         data={uniqueResults}
         keyboardShouldPersistTaps="handled"
-        keyExtractor={(item) => `${item.latitude}-${item.longitude}`}
+        keyExtractor={(item) => `${item.lat}-${item.lon}`}
         renderItem={({ item }) => (
-          <SearchResultItem cityItem={item} onPress={onCityPress} />
+          <SearchResultItem cityItem={item} onPress={selectCity} />
         )}
       />
     </View>

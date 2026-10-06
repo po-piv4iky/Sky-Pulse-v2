@@ -1,6 +1,7 @@
 import { useSavedCityStore } from '@/entities/city/model/store/useSavedCityStore'
 import { SearchCityResult } from '@/entities/city/types/searchCityResult.types'
 import SavedCityCard from '@/entities/city/ui/SavedCityCard'
+
 import { getCurrentWeather } from '@/entities/weather/api/weatherApi'
 import Loader from '@/shared/components/Loader/Loader'
 import { Language } from '@/shared/types/language'
@@ -10,6 +11,7 @@ import { FlatList } from 'react-native'
 
 export default function SavedCities() {
   const cities = useSavedCityStore((s) => s.cities)
+  const removeCity = useSavedCityStore((s) => s.removeCity)
   const { i18n } = useTranslation()
   const language = i18n.language as Language
   const [data, setData] = useState<SearchCityResult[]>([])
@@ -48,7 +50,7 @@ export default function SavedCities() {
     <FlatList
       data={data}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <SavedCityCard data={item} />}
+      renderItem={({ item }) => <SavedCityCard data={item} removeCity={removeCity} />}
     />
   )
 }
