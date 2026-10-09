@@ -21,5 +21,7 @@ export function normalizeWeather(data: WeatherApiResponse): Weather {
     wind: { speed: data.wind.speed, deg: data.wind.deg }, // скорость ветра в м/с и направление ветра в градусах
     visibility: data.visibility, // видимость в км
     pressure: data.main.pressure, // атмосферное давление
+    sunrise: data.sys.sunrise, // восход
+    sunset: data.sys.sunset, // закат
   }
 }

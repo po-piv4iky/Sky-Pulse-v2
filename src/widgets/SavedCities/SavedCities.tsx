@@ -7,7 +7,7 @@ import Loader from '@/shared/components/Loader/Loader'
 import { Language } from '@/shared/types/language'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList } from 'react-native'
+import { FlatList, View } from 'react-native'
 
 export default function SavedCities() {
   const cities = useSavedCityStore((s) => s.cities)
@@ -47,10 +47,12 @@ export default function SavedCities() {
   if (isLoading) return <Loader />
 
   return (
-    <FlatList
-      data={data}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <SavedCityCard data={item} removeCity={removeCity} />}
-    />
+    <View style={{ flex: 1 }}>
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <SavedCityCard data={item} removeCity={removeCity} />}
+      />
+    </View>
   )
 }

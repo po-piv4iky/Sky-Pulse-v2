@@ -16,4 +16,6 @@ export type Weather = {
   wind: { speed: number; deg: number }
   visibility: number
   pressure: number
+  sunrise: number
+  sunset: number
 }

@@ -30,7 +30,7 @@ export default function ScreenLayout({
           {children}
         </ScrollView>
       ) : (
-        <View style={[styles.content, contentStyle]}>{children}</View>
+        <View style={[styles.content, styles.flexContent, contentStyle]}>{children}</View>
       )}
     </GradientBackground>
   )
@@ -39,5 +39,8 @@ export default function ScreenLayout({
 const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 24,
+  },
+  flexContent: {
+    flex: 1,
   },
 })

@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native'
 
 export default function SavedPage() {
   return (
-    <ScreenLayout scrollable>
+    <ScreenLayout contentStyle={styles.container}>
       <CleanseAllCities />
 
       <SavedCities />
@@ -14,4 +14,9 @@ export default function SavedPage() {
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: 110,
+    gap: 30,
+  },
+})
