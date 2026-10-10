@@ -10,7 +10,7 @@ type ScreenLayoutProps = {
   contentStyle?: StyleProp<ViewStyle>
 }
 
-export default function ScreenLayout({
+export function ScreenLayout({
   children,
   scrollable = false,
   contentStyle,

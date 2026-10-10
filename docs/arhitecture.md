@@ -1,23 +1,27 @@
-
 ┌─────────────────────────────────────────┐
-│              ScreenLayout               │
-│                                         │
-│  ┌───────────────────────────────────┐  │
-│  │             Header                │  │
-│  └───────────────────────────────────┘  │
-│                                         │
-│          HomePage                       │
-│          ├ CurrentWeather               │
-│          ├ HourlyForecast                │
-│          ├ DailyForecast                │
-│          └ WeatherHighlights             │
-│                                         │
-│  ┌───────────────────────────────────┐  │
-│  │          CustomTabBar             │  │
-│  │ Home │ Forecast │ Saved │ Settings│  │
-│  └───────────────────────────────────┘  │
+│ ScreenLayout │
+│ │
+│ ┌───────────────────────────────────┐ │
+│ │ Header │ │
+│ └───────────────────────────────────┘ │
+│ │
+│ HomePage │
+│ ├ CurrentWeather │
+│ ├ HourlyForecast │
+│ ├ DailyForecast │
+│ └ WeatherHighlights │
+│ │
+│ ┌───────────────────────────────────┐ │
+│ │ CustomTabBar │ │
+│ │ Home │ Forecast │ Saved │ Settings│ │
+│ └───────────────────────────────────┘ │
 └─────────────────────────────────────────┘
 
+├── model/ ← логика, hooks, transformations
+├── ui/ ← UI этой feature
+├── lib/ ← если появится feature-specific helper
+├── config/ ← если появится config
+└── index.ts ← публичный API
 
 src/
 │

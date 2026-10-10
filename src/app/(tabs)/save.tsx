@@ -1,6 +1,6 @@
 import CleanseAllCities from '@/features/save-city/ui/CleanseAllCities'
 import SavedCities from '@/widgets/SavedCities/SavedCities'
-import ScreenLayout from '@/widgets/ScreenLayout/ScreenLayout'
+import { ScreenLayout } from '@/widgets/ScreenLayout'
 
 import { StyleSheet } from 'react-native'
 

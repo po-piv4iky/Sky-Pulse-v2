@@ -1,7 +1,7 @@
-import { useSelectCity } from '@/entities/city'
 import { useSearchCity } from '@/features/city-search/model/useSearchCity'
 
 import SearchResults from '@/features/city-search/ui/SearchResults'
+import { useSelectCity } from '@/features/city-selection'
 import { GradientBackground } from '@/shared/components/GradientBackground'
 import { THEME } from '@/shared/theme'
 import HeaderSearch from '@/widgets/HeaderSearch/HeaderSearch'

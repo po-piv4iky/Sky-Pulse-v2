@@ -1,4 +1,4 @@
-import ScreenLayout from '@/widgets/ScreenLayout/ScreenLayout'
+import { ScreenLayout } from '@/widgets/ScreenLayout'
 import LanguageSelector from '@/widgets/Settings/language-selector/ui/LanguageSelector'
 
 export default function SettingsPage() {

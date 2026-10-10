@@ -1,4 +1,4 @@
-import ScreenLayout from '@/widgets/ScreenLayout/ScreenLayout'
+import { ScreenLayout } from '@/widgets/ScreenLayout'
 import { StyleSheet, Text } from 'react-native'
 
 export default function ForecastPage() {
