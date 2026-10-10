@@ -21,14 +21,9 @@ export default function ClearAllCities() {
         onPress={() => setVisible(true)}
       />
 
-      <AppModal
-        visible={visible}
-        onClose={() => setVisible(false)}
-      >
+      <AppModal visible={visible} onClose={() => setVisible(false)}>
         <View style={styles.modal}>
-          <Text style={styles.title}>
-            Clear all cities?
-          </Text>
+          <Text style={styles.title}>Clear all cities?</Text>
 
           <Text style={styles.description}>
             All saved cities will be removed. This action cannot be undone.
@@ -56,6 +51,7 @@ export default function ClearAllCities() {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 8,
+    paddingBottom: 10,
   },
 
   clearButton: {

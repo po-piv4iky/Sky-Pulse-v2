@@ -1,5 +1,10 @@
-import { SettingsPage } from '@/pages/settings'
+import { ScreenLayout } from '@/widgets/ScreenLayout'
+import { LanguageSelector } from '@/widgets/Settings'
 
 export default function Settings() {
-  return <SettingsPage />
+  return (
+    <ScreenLayout>
+      <LanguageSelector />
+    </ScreenLayout>
+  )
 }

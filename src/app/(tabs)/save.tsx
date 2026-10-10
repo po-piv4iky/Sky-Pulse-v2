@@ -17,6 +17,5 @@ export default function Save() {
 const styles = StyleSheet.create({
   container: {
     paddingBottom: 110,
-    gap: 30,
   },
 })

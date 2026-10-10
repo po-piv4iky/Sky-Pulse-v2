@@ -5,7 +5,7 @@ import { Language } from '@/shared/types/language'
 import { useState } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 
-export default function LanguageSelector() {
+export function LanguageSelector() {
   const [selectedLanguage, setSelectedLanguage] = useState<'ru' | 'en'>('ru')
   const { currentLanguage, changeLanguage } = useChangeLanguage()
 

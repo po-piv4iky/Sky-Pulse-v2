@@ -3,7 +3,6 @@ import { useInitializationStore } from '@/features/initialize'
 
 import Loader from '@/shared/components/Loader/Loader'
 import CurrentWeather from '@/widgets/CurrentWeather/CurrentWeather'
-import { DailyForecast } from '@/widgets/DailyForecast'
 import { HourlyForecast } from '@/widgets/HourlyForecast'
 import { ScreenLayout } from '@/widgets/ScreenLayout'
 import { SunCycle } from '@/widgets/SunCycle'
@@ -35,7 +34,6 @@ export default function Home() {
       />
       <HourlyForecast />
       <WeatherDetails />
-      <DailyForecast />
     </ScreenLayout>
   )
 }
