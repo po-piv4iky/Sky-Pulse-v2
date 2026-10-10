@@ -1,9 +1,8 @@
-import { Coordinates } from '@/entities/user-location/types/coordinates.types'
+import { storage } from '@/shared/storage/storage'
+import { Coordinates } from '@/shared/types/coordinates.types'
 import { Language } from '@/shared/types/language'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
-
-import { storage } from '@/shared/storage/storage'
 import { getCurrentWeather, getWeatherForecast } from '../api/weatherApi'
 import { normalizeWeather } from '../model/normalizeWeather'
 import { normalizeWeatherForecast } from '../model/normalizeWeatherForecast'
@@ -40,8 +39,8 @@ export const useWeatherStore = create<WeatherStore>()(
         try {
           set({ weatherStatus: 'loading', error: null })
           const [responseCurrentWeather, responseForecastWeather] = await Promise.all([
-            getCurrentWeather(coord.latitude, coord.longitude, language),
-            getWeatherForecast(coord.latitude, coord.longitude, language),
+            getCurrentWeather(coord, language),
+            getWeatherForecast(coord, language),
           ])
           const weather = normalizeWeather(responseCurrentWeather)
           const weatherForecast = normalizeWeatherForecast(responseForecastWeather)

@@ -1,22 +1,23 @@
-import { SearchCityResult } from '@/entities/city/types/searchCityResult.types'
+import { WeatherCityInfo } from '@/entities/city/model/types/weatherCityInfo.types'
 import Card from '@/shared/components/Card/Card'
 import StyledIcon from '@/shared/components/StyledIcon/StyledIcon'
 import StyledText from '@/shared/components/StyledText/StyledText'
 import { getWeatherIconUrl } from '@/shared/lib/getWeatherIconUrl'
 import { THEME } from '@/shared/theme'
+import { Coordinates } from '@/shared/types/coordinates.types'
 import { Image, StyleSheet, View } from 'react-native'
 
 interface Props {
-  cityItem: SearchCityResult
-  onPress: (city: SearchCityResult) => void
+  cityItem: WeatherCityInfo
+  onPress: (coord: Coordinates) => void
 }
 
-export default function SearchCityItem({ cityItem, onPress }: Props) {
+export default function SearchCityCard({ cityItem, onPress }: Props) {
   const iconUrl = getWeatherIconUrl(cityItem.icon)
 
   return (
     <Card
-      onPress={() => onPress(cityItem)}
+      onPress={() => onPress(cityItem.coord)}
       style={styles.container}
       border="default"
       background="dark"

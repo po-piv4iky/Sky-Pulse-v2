@@ -1,5 +1,5 @@
+import { Coordinates } from '@/shared/types/coordinates.types'
 import * as Location from 'expo-location'
-import { Coordinates } from '../types/coordinates.types'
 
 //спрашиваем у ОС статус доступа к местоположению юзера
 export function getPermissionStatus(): Promise<Location.LocationPermissionResponse> {
@@ -21,7 +21,7 @@ export async function getCurrentLocation(): Promise<Coordinates | null> {
     accuracy: Location.Accuracy.High,
   })
   return {
-    latitude: coords.latitude,
-    longitude: coords.longitude,
+    lat: coords.latitude,
+    lon: coords.longitude,
   }
 }

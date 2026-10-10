@@ -1,13 +1,14 @@
+import { Coordinates } from '@/shared/types/coordinates.types'
 import { Language } from '@/shared/types/language'
 import { weatherClient } from '../../../shared/api/weatherClient'
 import { WeatherApiResponse } from '../types/weatherApiResponse.types'
 import { WeatherForecastResponse } from '../types/weatherForecastResponse.types'
 
 export async function getCurrentWeather(
-  lat: number,
-  lon: number,
+  coord: Coordinates,
   lang: Language,
 ): Promise<WeatherApiResponse> {
+  const { lat, lon } = coord
   const { data } = await weatherClient.get('/weather', {
     params: { lat, lon, lang: lang },
   })
@@ -15,10 +16,10 @@ export async function getCurrentWeather(
 }
 
 export async function getWeatherForecast(
-  lat: number,
-  lon: number,
+  coord: Coordinates,
   lang: Language,
 ): Promise<WeatherForecastResponse> {
+  const { lat, lon } = coord
   const { data } = await weatherClient.get('/forecast', {
     params: { lat, lon, lang: lang },
   })

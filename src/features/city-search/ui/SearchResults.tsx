@@ -1,14 +1,15 @@
-import { SearchCityResult } from '@/entities/city/types/searchCityResult.types'
+import { WeatherCityInfo } from '@/entities/city/model/types/weatherCityInfo.types'
 import Loader from '@/shared/components/Loader/Loader'
 import StyledText from '@/shared/components/StyledText/StyledText'
+import { Coordinates } from '@/shared/types/coordinates.types'
 import { FlatList, StyleSheet, View } from 'react-native'
-import SearchResultItem from '../../../entities/city/ui/SearchCityItem'
+import SearchResultItem from '../../../entities/city/ui/SearchCityCard'
 
 type SearchResultsProps = {
-  results: SearchCityResult[]
+  results: WeatherCityInfo[]
   isLoading: boolean
   error: string | null
-  selectCity: (city: SearchCityResult) => void
+  selectCity: (coord: Coordinates) => void
 }
 
 export default function SearchResults({
@@ -37,14 +38,17 @@ export default function SearchResults({
   const uniqueResults = results.filter(
     (item, index, array) =>
       index ===
-      array.findIndex((result) => result.lat === item.lat && result.lon === item.lon),
+      array.findIndex(
+        (result) =>
+          result.coord.lat === item.coord.lat && result.coord.lon === item.coord.lon,
+      ),
   )
   return (
     <View style={{ gap: 15, paddingHorizontal: 20 }}>
       <FlatList
         data={uniqueResults}
         keyboardShouldPersistTaps="handled"
-        keyExtractor={(item) => `${item.lat}-${item.lon}`}
+        keyExtractor={(item) => `${item.coord.lat}-${item.coord.lon}`}
         renderItem={({ item }) => (
           <SearchResultItem cityItem={item} onPress={selectCity} />
         )}

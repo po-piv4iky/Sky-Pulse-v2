@@ -1,12 +1,12 @@
+import { WeatherCityInfo } from '@/entities/city'
 import { getCities } from '@/entities/city/api/cityApi'
-import { SearchCityResult } from '@/entities/city/types/searchCityResult.types'
 import { getCurrentWeather } from '@/entities/weather/api/weatherApi'
 import { Language } from '@/shared/types/language'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function useSearchCity(query: string) {
-  const [results, setResults] = useState<SearchCityResult[]>([])
+  const [results, setResults] = useState<WeatherCityInfo[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -30,12 +30,14 @@ export function useSearchCity(query: string) {
 
         const results = await Promise.all(
           cities.map(async (city) => {
-            const weather = await getCurrentWeather(city.lat, city.lon, language)
+            const weather = await getCurrentWeather(
+              { lat: city.lat, lon: city.lon },
+              language,
+            )
             return {
               id: `${city.lat}-${city.lon}`,
               name: weather.name,
-              lat: city.lat,
-              lon: city.lon,
+              coord: { lat: city.lat, lon: city.lon },
               country: city.country,
               state: city.state,
               temperature: weather.main.temp,

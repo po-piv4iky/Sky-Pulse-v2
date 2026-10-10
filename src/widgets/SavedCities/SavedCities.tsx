@@ -1,7 +1,6 @@
+import { useSelectCity, WeatherCityInfo } from '@/entities/city'
 import { useSavedCityStore } from '@/entities/city/model/store/useSavedCityStore'
-import { SearchCityResult } from '@/entities/city/types/searchCityResult.types'
 import SavedCityCard from '@/entities/city/ui/SavedCityCard'
-
 import { getCurrentWeather } from '@/entities/weather/api/weatherApi'
 import Loader from '@/shared/components/Loader/Loader'
 import { Language } from '@/shared/types/language'
@@ -12,9 +11,10 @@ import { FlatList, View } from 'react-native'
 export default function SavedCities() {
   const cities = useSavedCityStore((s) => s.cities)
   const removeCity = useSavedCityStore((s) => s.removeCity)
+  const { selectCity, error } = useSelectCity()
   const { i18n } = useTranslation()
   const language = i18n.language as Language
-  const [data, setData] = useState<SearchCityResult[]>([])
+  const [data, setData] = useState<WeatherCityInfo[]>([])
 
   const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
@@ -23,13 +23,12 @@ export default function SavedCities() {
       try {
         const result = await Promise.all(
           cities.map(async (city) => {
-            const weather = await getCurrentWeather(city.lat, city.lon, language)
+            const weather = await getCurrentWeather(city.coord, language)
 
             return {
               id: city.id,
               name: city.name,
-              lat: city.lat,
-              lon: city.lon,
+              coord: city.coord,
               country: city.country,
               temperature: weather.main.temp,
               description: weather.weather[0].description,
@@ -51,7 +50,9 @@ export default function SavedCities() {
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <SavedCityCard data={item} removeCity={removeCity} />}
+        renderItem={({ item }) => (
+          <SavedCityCard data={item} removeCity={removeCity} selectCity={selectCity} />
+        )}
       />
     </View>
   )

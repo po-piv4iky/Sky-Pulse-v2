@@ -1,5 +1,5 @@
 import { useSavedCityStore } from '@/entities/city/model/store/useSavedCityStore'
-import { City } from '@/entities/city/types/city.types'
+import { City } from '@/entities/city/model/types/city.types'
 import { useToastStore } from '@/shared/ui/Toast/toast.store'
 import { useTranslation } from 'react-i18next'
 

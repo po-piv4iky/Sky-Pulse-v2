@@ -1,4 +1,5 @@
 import { storage } from '@/shared/storage/storage'
+import { Coordinates } from '@/shared/types/coordinates.types'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import {
@@ -6,7 +7,6 @@ import {
   getPermissionStatus,
   requestPermission,
 } from '../api/userLocation'
-import { Coordinates } from '../types/coordinates.types'
 
 type PermissionStatus = 'undetermined' | 'granted' | 'denied' //"не определено" | "предоставлено" | "отклонено"
 

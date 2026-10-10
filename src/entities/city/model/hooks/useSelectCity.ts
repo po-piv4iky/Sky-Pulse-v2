@@ -1,5 +1,5 @@
-import { SearchCityResult } from '@/entities/city/types/searchCityResult.types'
 import { useWeatherStore } from '@/entities/weather/store/useWeatherStore'
+import { Coordinates } from '@/shared/types/coordinates.types'
 import { Language } from '@/shared/types/language'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
@@ -8,26 +8,20 @@ import { useTranslation } from 'react-i18next'
 export function useSelectCity() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { i18n } = useTranslation()
   const router = useRouter()
+  const { i18n } = useTranslation()
   const language = i18n.language as Language
   const loadWeather = useWeatherStore((s) => s.loadWeather)
-  const selectCity = async (city: SearchCityResult) => {
+
+  const selectCity = async (coord: Coordinates) => {
     try {
       setIsLoading(true)
       setError(null)
-      const result = await loadWeather(
-        {
-          latitude: city.lat,
-          longitude: city.lon,
-        },
-        language,
-      )
+      const result = await loadWeather({ lat: coord.lat, lon: coord.lon }, language)
       if (result === 'error') {
         setError('Failed to load weather')
         return
       }
-
       router.replace('/')
     } finally {
       setIsLoading(false)

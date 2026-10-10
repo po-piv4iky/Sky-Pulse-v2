@@ -1,4 +1,4 @@
-import { City } from '@/entities/city/types/city.types'
+import { City } from '@/entities/city/model/types/city.types'
 import { storage } from '@/shared/storage/storage'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'

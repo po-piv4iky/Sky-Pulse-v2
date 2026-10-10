@@ -1,17 +1,23 @@
 import Card from '@/shared/components/Card/Card'
 import StyledIcon from '@/shared/components/StyledIcon/StyledIcon'
 import StyledText from '@/shared/components/StyledText/StyledText'
+import { Coordinates } from '@/shared/types/coordinates.types'
 import { Pressable, StyleSheet, View } from 'react-native'
-import { SavedCityCardData } from '../types/savedCityCardData.types'
+import { WeatherCityInfo } from '../model/types/weatherCityInfo.types'
 
 interface Props {
-  data: SavedCityCardData
+  data: WeatherCityInfo
   removeCity: (id: string) => void
+  selectCity: (coord: Coordinates) => void
 }
 
-export default function SavedCityCard({ data, removeCity }: Props) {
+export default function SavedCityCard({ data, removeCity, selectCity }: Props) {
   return (
-    <Card border="default" style={styles.container}>
+    <Card
+      border="default"
+      style={styles.container}
+      onPress={() => selectCity(data.coord)}
+    >
       <View style={styles.cityInfo}>
         <StyledText variant="headlineMd">{data.name}</StyledText>
 

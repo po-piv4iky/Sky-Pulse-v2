@@ -1,8 +1,7 @@
-export interface City {
-  id: string
+export interface CityApiResponse {
+  name: string
   lat: number
   lon: number
-  name: string
   country: string
   state?: string
 }
