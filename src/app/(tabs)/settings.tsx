@@ -1,5 +1,5 @@
+import { LanguageSelector } from '@/features/change-language'
 import { ScreenLayout } from '@/widgets/ScreenLayout'
-import { LanguageSelector } from '@/widgets/Settings'
 
 export default function Settings() {
   return (
