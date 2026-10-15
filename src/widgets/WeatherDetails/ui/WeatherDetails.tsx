@@ -2,6 +2,7 @@ import { useWeatherStore } from '@/entities/weather/store/useWeatherStore'
 import Card from '@/shared/components/Card/Card'
 import StyledIcon from '@/shared/components/StyledIcon/StyledIcon'
 import StyledText from '@/shared/components/StyledText/StyledText'
+import { Temperature } from '@/shared/ui'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { getWeatherDetails } from '../model/getWeatherDetails'
@@ -19,7 +20,11 @@ export function WeatherDetails() {
             <StyledIcon name={item.icon} />
             <StyledText>{t(item.labelKey)}</StyledText>
           </View>
-          <StyledText>{item.value}</StyledText>
+          {item.valueType === 'temperature' ? (
+            <Temperature value={item.value} />
+          ) : (
+            <StyledText>{item.value}</StyledText>
+          )}
           {item.description && <StyledText>{t(item.description)}</StyledText>}
         </Card>
       ))}

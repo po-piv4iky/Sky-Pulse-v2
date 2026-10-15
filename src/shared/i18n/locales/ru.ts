@@ -48,6 +48,10 @@ export const ru = {
         west: 'Западный',
         northWest: 'Северо-западный',
       },
+      temperature: {
+        max: 'Макс.',
+        min: 'Мин.',
+      },
     },
     savedCity: {
       added: 'Город добавлен',

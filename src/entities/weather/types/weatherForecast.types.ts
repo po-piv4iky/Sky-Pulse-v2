@@ -5,4 +5,3 @@ export interface WeatherForecast {
   uri: string | null
   description: string
 }
- 

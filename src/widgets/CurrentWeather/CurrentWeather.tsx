@@ -2,9 +2,11 @@ import { useWeatherStore } from '@/entities/weather/store/useWeatherStore'
 import CityClock from '@/shared/components/CityClock/CityClock'
 import StyledText from '@/shared/components/StyledText/StyledText'
 
-import { formatWeekday } from '@/shared/lib/date/formarWeekDay'
 import { formatDate } from '@/shared/lib/date/formatDate'
+import { formatWeekday } from '@/shared/lib/date/formatWeekday'
 import { Language } from '@/shared/types/language'
+
+import { Temperature } from '@/shared/ui'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, View } from 'react-native'
 
@@ -17,6 +19,7 @@ export default function CurrentWeather() {
   const date = formatDate(weather.dt, language)
 
   const weekDay = formatWeekday(weather.dt, language)
+  console.log(weather.dt, ' asd')
 
   return (
     <View style={styles.container}>
@@ -34,23 +37,27 @@ export default function CurrentWeather() {
         {weather.uri && (
           <Image source={{ uri: weather.uri }} style={styles.icon} resizeMode="contain" />
         )}
-
-        <StyledText variant="displayXl" style={styles.temperature}>
-          {Math.round(weather.temp)}°
-        </StyledText>
+        <Temperature
+          value={weather.temp}
+          variant="displayXl"
+          style={styles.temperature}
+        />
 
         <StyledText style={styles.condition}>{weather.description}</StyledText>
 
         <View style={styles.minMax}>
-          <StyledText style={styles.minMaxText}>
-            H {Math.round(weather.temp_max)}°
-          </StyledText>
+          <Temperature
+            value={weather.temp_max}
+            style={styles.minMaxText}
+            labelKey="weather.temperature.max"
+          />
 
           <View style={styles.dot} />
-
-          <StyledText style={styles.minMaxText}>
-            L {Math.round(weather.temp_min)}°
-          </StyledText>
+          <Temperature
+            value={weather.temp_min}
+            style={styles.minMaxText}
+            labelKey="weather.temperature.min"
+          />
         </View>
       </View>
     </View>

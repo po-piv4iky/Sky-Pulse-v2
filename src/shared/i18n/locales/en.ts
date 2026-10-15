@@ -48,6 +48,10 @@ export const en = {
         west: 'West',
         northWest: 'Northwest',
       },
+      temperature: {
+        max: 'Max',
+        min: 'Min',
+      },
     },
     savedCity: {
       added: 'City added',

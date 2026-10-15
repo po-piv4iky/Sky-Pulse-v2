@@ -10,7 +10,7 @@ export async function getCurrentWeather(
 ): Promise<WeatherApiResponse> {
   const { lat, lon } = coord
   const { data } = await weatherClient.get('/weather', {
-    params: { lat, lon, lang: lang },
+    params: { lat, lon, lang },
   })
   return data
 }
@@ -21,7 +21,7 @@ export async function getWeatherForecast(
 ): Promise<WeatherForecastResponse> {
   const { lat, lon } = coord
   const { data } = await weatherClient.get('/forecast', {
-    params: { lat, lon, lang: lang },
+    params: { lat, lon, lang },
   })
   return data
 }

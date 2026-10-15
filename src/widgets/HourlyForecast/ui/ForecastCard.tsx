@@ -1,6 +1,7 @@
 import { WeatherForecast } from '@/entities/weather/types/weatherForecast.types'
 import Card from '@/shared/components/Card/Card'
 import StyledText from '@/shared/components/StyledText/StyledText'
+import { Temperature } from '@/shared/ui'
 import { Image, StyleSheet } from 'react-native'
 
 type ForecastCardProps = {
@@ -21,7 +22,7 @@ export default function ForecastCard({ item, timezone }: ForecastCardProps) {
         <Image source={{ uri: item.uri }} style={styles.icon} resizeMode="contain" />
       )}
 
-      <StyledText style={styles.temperature}>{Math.round(item.temp)}°</StyledText>
+      <Temperature value={item.temp} style={styles.temperature} />
     </Card>
   )
 }
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
   },
 
   temperature: {
-    fontSize: 16,
     fontWeight: '600',
+    fontSize: 14,
   },
 })

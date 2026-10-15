@@ -6,32 +6,25 @@ export type CityTime = {
   seconds: string
 }
 
-export const useCityTime = (
-  initialTimestamp: number,
-  timezoneOffset: number,
-): CityTime => {
-  const [timestamp, setTimestamp] = useState(() => initialTimestamp)
-
-  useEffect(() => {
-    setTimestamp(initialTimestamp)
-  }, [initialTimestamp])
+export const useCityTime = (timezoneOffset: number): CityTime => {
+  const [now, setNow] = useState(() => Date.now())
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setTimestamp((prev) => prev + 1)
+      setNow(Date.now())
     }, 1000)
 
     return () => clearInterval(intervalId)
   }, [])
 
   return useMemo(() => {
-    const totalSeconds = timestamp + timezoneOffset
-    const date = new Date(totalSeconds * 1000)
+    const utcDate = new Date(now)
+    const cityDate = new Date(now + timezoneOffset * 1000)
 
     return {
-      hours: String(date.getUTCHours()).padStart(2, '0'),
-      minutes: String(date.getUTCMinutes()).padStart(2, '0'),
-      seconds: String(date.getUTCSeconds()).padStart(2, '0'),
+      hours: String(cityDate.getUTCHours()).padStart(2, '0'),
+      minutes: String(cityDate.getUTCMinutes()).padStart(2, '0'),
+      seconds: String(cityDate.getUTCSeconds()).padStart(2, '0'),
     }
-  }, [timestamp, timezoneOffset])
+  }, [now, timezoneOffset])
 }
