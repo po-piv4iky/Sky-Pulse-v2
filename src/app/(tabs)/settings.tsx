@@ -1,12 +1,12 @@
-import { LanguageSelector } from '@/features/change-language'
-import TemperatureUnitSelector from '@/features/temperature-unit/ui/TemperatureUnitSelector'
 import { ScreenLayout } from '@/widgets/ScreenLayout'
+import { SettingsAppearance } from '@/widgets/SettingsAppearance'
+import { SettingsUnits } from '@/widgets/SettingsUnits'
 
 export default function Settings() {
   return (
-    <ScreenLayout>
-      <LanguageSelector />
-      <TemperatureUnitSelector />
+    <ScreenLayout contentStyle={{ gap: 20 }}>
+      <SettingsAppearance />
+      <SettingsUnits />
     </ScreenLayout>
   )
 }

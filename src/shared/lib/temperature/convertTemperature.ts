@@ -1,4 +1,4 @@
-import { TemperatureUnit } from '@/entities/settings/model/types/temperatureUnit.types'
+import { TemperatureUnit } from '@/entities/settings/model/types/units.types'
 
 export function convertTemperature(
   value: number,
