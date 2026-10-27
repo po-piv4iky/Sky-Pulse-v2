@@ -4,7 +4,7 @@ import { Pressable, StyleSheet } from 'react-native'
 import StyledText from '../StyledText/StyledText'
 
 interface SelectBottomSheetProps<T extends string> {
-  options?: readonly T[]
+  options?: readonly T[] // T = 'en' | 'ru'
   title: string
   value: string
   ref?: React.Ref<BottomSheetModal>

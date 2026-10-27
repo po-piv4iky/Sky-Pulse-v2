@@ -1,66 +1,213 @@
 import { THEME } from '@/shared/theme'
 import { Ionicons } from '@expo/vector-icons'
+import { useEffect, useState } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated'
+
 import StyledIcon from '../StyledIcon/StyledIcon'
 import StyledText from '../StyledText/StyledText'
 
-interface SelectRowProps {
-  icon: React.ComponentProps<typeof Ionicons>['name']
-  title: string
-  value: string
-  onPress: () => void
-  isOpen: boolean
-  isLast?: boolean
+export interface SelectButtonOption<T extends string> {
+  value: T
+  label: string
 }
 
-export default function SelectRow({
+interface SelectRowProps<T extends string> {
+  icon: React.ComponentProps<typeof Ionicons>['name']
+  title: string
+  value?: string
+  onPress?: () => void
+  isOpen?: boolean
+  isLast?: boolean
+
+  mode?: 'select' | 'buttons'
+  buttons?: readonly SelectButtonOption<T>[]
+  selectedValue?: T
+  onButtonSelect?: (value: T) => void
+}
+
+export default function SelectRow<T extends string>({
   title,
   icon,
   value,
   onPress,
-  isOpen,
-  isLast,
-}: SelectRowProps) {
-  return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={`${title}: ${value}`}
-      accessibilityState={{ expanded: isOpen }}
-      style={[styles.row, !isLast && styles.divider]}
-    >
-      <StyledIcon name={icon} />
-      <StyledText style={styles.title}>{title}</StyledText>
+  isOpen = false,
+  isLast = false,
+  mode = 'select',
+  buttons = [],
+  selectedValue,
+  onButtonSelect,
+}: SelectRowProps<T>) {
+  const [trackWidth, setTrackWidth] = useState(0)
 
-      <View style={styles.valueContainer}>
-        <StyledText style={styles.value}>{value}</StyledText>
-        <StyledIcon name="chevron-down" />
+  const selectedIndex = Math.max(
+    0,
+    buttons.findIndex((button) => button.value === selectedValue),
+  )
+
+  const segmentWidth = buttons.length > 0 ? trackWidth / buttons.length : 0
+
+  const translateX = useSharedValue(0)
+
+  useEffect(() => {
+    translateX.value = withTiming(selectedIndex * segmentWidth, {
+      duration: 250,
+    })
+  }, [selectedIndex, segmentWidth, translateX])
+
+  const indicatorStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+  }))
+
+  return (
+    <View style={[styles.container, !isLast && styles.divider]}>
+      <View style={styles.header}>
+        <View style={styles.iconContainer}>
+          <StyledIcon name={icon} />
+        </View>
+
+        <StyledText style={styles.title}>{title}</StyledText>
+
+        {mode === 'select' && (
+          <Pressable
+            onPress={onPress}
+            accessibilityRole="button"
+            accessibilityLabel={`${title}: ${value}`}
+            accessibilityState={{ expanded: isOpen }}
+            style={styles.valueContainer}
+          >
+            <StyledText style={styles.value}>{value}</StyledText>
+
+            <StyledIcon name={isOpen ? 'chevron-up' : 'chevron-down'} />
+          </Pressable>
+        )}
+
+        {mode === 'buttons' && (
+          <View
+            style={styles.segmentedControl}
+            onLayout={(event) => {
+              setTrackWidth(event.nativeEvent.layout.width)
+            }}
+          >
+            {segmentWidth > 0 && (
+              <Animated.View
+                pointerEvents="none"
+                style={[
+                  styles.activeIndicator,
+                  {
+                    width: segmentWidth,
+                  },
+                  indicatorStyle,
+                ]}
+              />
+            )}
+
+            {buttons.map((button) => {
+              const isSelected = selectedValue === button.value
+
+              return (
+                <Pressable
+                  key={button.value}
+                  accessibilityRole="radio"
+                  accessibilityState={{ checked: isSelected }}
+                  onPress={() => onButtonSelect?.(button.value)}
+                  style={styles.segment}
+                >
+                  <StyledText
+                    style={[styles.segmentLabel, isSelected && styles.selectedLabel]}
+                  >
+                    {button.label}
+                  </StyledText>
+                </Pressable>
+              )
+            })}
+          </View>
+        )}
       </View>
-    </Pressable>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-  row: {
+  container: {
+    paddingVertical: 10,
+  },
+
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 16,
-    gap: 12,
+    gap: 10,
+    minHeight: 34,
   },
-  divider: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: THEME.colors.BORDER_PRIMARY,
+
+  iconContainer: {
+    width: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
+
   title: {
     flex: 1,
+    fontSize: 14,
   },
+
   valueContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 6,
   },
+
   value: {
-    color: '#A8ADBA',
+    color: THEME.colors.TEXT_SECONDARY,
+  },
+
+  segmentedControl: {
+    flexDirection: 'row',
+    position: 'relative',
+    width: 148,
+    flexShrink: 0,
+    padding: 3,
+    borderRadius: 999,
+    backgroundColor: THEME.colors.BG_SECONDARY,
+    borderWidth: 1,
+    borderColor: THEME.colors.BORDER_PRIMARY,
+    overflow: 'hidden',
+  },
+
+  activeIndicator: {
+    position: 'absolute',
+    top: 3,
+    bottom: 3,
+    left: 3,
+    borderRadius: 999,
+    backgroundColor: THEME.colors.BUTTON_PRIMARY_ACTIVE,
+  },
+
+  segment: {
+    flex: 1,
+    minHeight: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1,
+  },
+
+  segmentLabel: {
+    color: THEME.colors.TEXT_SECONDARY,
+    fontSize: 12,
+    fontWeight: '500',
+  },
+
+  selectedLabel: {
+    color: '#FFFFFF',
+    fontWeight: '600',
+  },
+
+  divider: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: THEME.colors.BORDER_PRIMARY,
   },
 })
