@@ -1,5 +1,9 @@
-import { THEME } from '@/shared/theme'
+import StyledIcon from '@/shared/components/StyledIcon/StyledIcon'
+import StyledText from '@/shared/components/StyledText/StyledText'
+import { useAppTheme } from '@/shared/theme'
+import type { AppColors } from '@/shared/theme/colors'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Pressable, StyleSheet } from 'react-native'
 import Animated, {
   useAnimatedStyle,
@@ -8,9 +12,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 
-import StyledIcon from '@/shared/components/StyledIcon/StyledIcon'
-import StyledText from '@/shared/components/StyledText/StyledText'
-import { useTranslation } from 'react-i18next'
 import { Tab } from '../config/tabs.config'
 
 interface TabItemProps {
@@ -21,10 +22,13 @@ interface TabItemProps {
 }
 
 export default function TabItem({ tab, focused, onPress, onLongPress }: TabItemProps) {
+  const { colors } = useAppTheme()
+  const styles = createStyles(colors)
+  const { t } = useTranslation()
+
   const scale = useSharedValue(1)
   const opacity = useSharedValue(0)
   const translateY = useSharedValue(0)
-  const { t } = useTranslation()
 
   useEffect(() => {
     scale.value = withSpring(focused ? 1.08 : 1)
@@ -32,17 +36,10 @@ export default function TabItem({ tab, focused, onPress, onLongPress }: TabItemP
       duration: 180,
     })
     translateY.value = withSpring(focused ? -3 : 0)
-  }, [focused])
+  }, [focused, opacity, scale, translateY])
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        scale: scale.value,
-      },
-      {
-        translateY: translateY.value,
-      },
-    ],
+    transform: [{ scale: scale.value }, { translateY: translateY.value }],
   }))
 
   const animatedBackground = useAnimatedStyle(() => ({
@@ -55,6 +52,9 @@ export default function TabItem({ tab, focused, onPress, onLongPress }: TabItemP
       onPress={onPress}
       onLongPress={onLongPress}
       hitSlop={8}
+      accessibilityRole="tab"
+      accessibilityState={{ selected: focused }}
+      accessibilityLabel={t(tab.titleKey)}
     >
       <Animated.View style={[styles.container, animatedStyle]}>
         <Animated.View
@@ -64,7 +64,7 @@ export default function TabItem({ tab, focused, onPress, onLongPress }: TabItemP
 
         <StyledIcon
           name={tab.icon}
-          color={focused ? THEME.colors.SECONDARY : THEME.colors.TEXT_PRIMARY}
+          color={focused ? colors.SECONDARY : colors.TEXT_PRIMARY}
         />
 
         <StyledText
@@ -78,38 +78,39 @@ export default function TabItem({ tab, focused, onPress, onLongPress }: TabItemP
   )
 }
 
-const styles = StyleSheet.create({
-  pressable: {
-    flex: 1,
-    alignItems: 'center',
-  },
+const createStyles = (colors: AppColors) =>
+  StyleSheet.create({
+    pressable: {
+      flex: 1,
+      alignItems: 'center',
+    },
 
-  container: {
-    position: 'relative',
-    overflow: 'hidden',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 3,
-    borderRadius: 25,
-  },
-  activeBackground: {
-    backgroundColor: THEME.colors.BUTTON_PRIMARY_ACTIVE,
-    position: 'absolute',
+    container: {
+      position: 'relative',
+      overflow: 'hidden',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: 20,
+      paddingVertical: 3,
+      borderRadius: 25,
+    },
 
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
+    activeBackground: {
+      backgroundColor: colors.BUTTON_PRIMARY_ACTIVE,
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+      borderRadius: 25,
+    },
 
-    borderRadius: 25,
-  },
-  label: {
-    color: THEME.colors.TEXT_PRIMARY, // Цвета  и текст не анимация
-  },
+    label: {
+      color: colors.TEXT_PRIMARY,
+    },
 
-  activeLabel: {
-    color: THEME.colors.SECONDARY,
-  },
-})
+    activeLabel: {
+      color: colors.SECONDARY,
+    },
+  })

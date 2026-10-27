@@ -1,8 +1,10 @@
 import { useInitializationStore } from '@/features/initialize/model/initializationStore'
-import { THEME } from '@/shared/theme'
+import { useAppTheme } from '@/shared/theme'
+import type { AppColors } from '@/shared/theme/colors'
 import { Tabs } from 'expo-router'
 import { StyleSheet } from 'react-native'
 import Animated, { FadeIn } from 'react-native-reanimated'
+
 import { TabName, tabsMap } from '../config/tabs.config'
 import TabItem from './TabItem'
 
@@ -12,31 +14,39 @@ type CustomTabBarProps = Parameters<
 
 export default function CustomTabBar({ state, navigation }: CustomTabBarProps) {
   const status = useInitializationStore((s) => s.status)
+  const { colors } = useAppTheme()
+  const styles = createStyles(colors)
+
   if (status !== 'success') {
     return null
   }
+
   return (
     <Animated.View entering={FadeIn.duration(400).delay(100)} style={styles.container}>
       {state.routes.map((route, index) => {
         const focused = state.index === index
         const tab = tabsMap[route.name as TabName]
 
+        if (!tab) {
+          return null
+        }
+
         const onPress = () => {
           const event = navigation.emit({
-            type: 'tabPress', // название события нажати или зажатие
-            target: route.key, // Это указание, для какой именно вкладки произошло событие.
-            canPreventDefault: true, // Если кто-то захочет отменить переход — пусть сможет.
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
           })
+
           if (!focused && !event.defaultPrevented) {
-            // находимся ли на нажатой странице? и Кто-нибудь хочет запретить переход? Может быть да если стоит регистрация или платный раздел
             navigation.navigate(route.name)
           }
         }
 
         const onLongPress = () => {
           navigation.emit({
-            type: 'tabLongPress', // название события нажати или зажатие тут зажатие кнопки
-            target: route.key, // Это указание, для какой именно вкладки произошло событие.
+            type: 'tabLongPress',
+            target: route.key,
           })
         }
 
@@ -54,33 +64,33 @@ export default function CustomTabBar({ state, navigation }: CustomTabBarProps) {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
+const createStyles = (colors: AppColors) =>
+  StyleSheet.create({
+    container: {
+      position: 'absolute',
 
-    left: 16,
-    right: 16,
-    bottom: 30,
-    height: 68,
+      left: 16,
+      right: 16,
+      bottom: 30,
+      height: 68,
 
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
 
-    borderRadius: 50,
+      borderRadius: 50,
+      paddingHorizontal: 4,
 
-    paddingHorizontal: 4,
+      backgroundColor: colors.BG_SECONDARY,
 
-    backgroundColor: THEME.colors.BG_SECONDARY,
+      shadowColor: '#000',
+      shadowOpacity: 0.12,
+      shadowRadius: 12,
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
 
-    shadowColor: '#000',
-    shadowOpacity: 0.12,
-    shadowRadius: 12,
-    shadowOffset: {
-      width: 0,
-      height: 4,
+      elevation: 10,
     },
-
-    elevation: 10,
-  },
-})
+  })

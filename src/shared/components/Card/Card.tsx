@@ -1,4 +1,5 @@
-import { THEME } from '@/shared/theme'
+import { useAppTheme } from '@/shared/theme'
+import { AppColors } from '@/shared/theme/colors'
 import { ReactNode } from 'react'
 import {
   Pressable,
@@ -30,33 +31,37 @@ const PADDING_SIZE = {
   lg: 20,
 } as const
 
-const BACKGROUND = {
-  transparent: 'transparent',
-  dark: THEME.colors.OVERLAY.darkStrong,
-  light: THEME.colors.OVERLAY.light,
-} as const
+function getBackgroundColors(colors: AppColors) {
+  return {
+    transparent: 'transparent',
+    dark: colors.OVERLAY.darkStrong,
+    light: colors.OVERLAY.light,
+  } as const
+}
 
-const BORDER = {
-  none: {
-    width: 0,
-    color: 'transparent',
-  },
+function getBorderColors(colors: AppColors) {
+  return {
+    none: {
+      width: 0,
+      color: 'transparent',
+    },
 
-  subtle: {
-    width: 0.5,
-    color: THEME.colors.BORDER,
-  },
+    subtle: {
+      width: 0.5,
+      color: colors.BORDER,
+    },
 
-  default: {
-    width: 1,
-    color: THEME.colors.BORDER_PRIMARY,
-  },
+    default: {
+      width: 1,
+      color: colors.BORDER_PRIMARY,
+    },
 
-  strong: {
-    width: 1.5,
-    color: THEME.colors.TEXT_SECONDARY,
-  },
-} as const
+    strong: {
+      width: 1.5,
+      color: colors.TEXT_SECONDARY,
+    },
+  } as const
+}
 
 export default function Card({
   children,
@@ -68,14 +73,16 @@ export default function Card({
   onPress,
   ...pressableProps
 }: CardProps) {
+  const { colors } = useAppTheme()
+  const borders = getBorderColors(colors)
+  const bacground = getBackgroundColors(colors)
   const cardStyle = [
-    styles.base,
     {
       padding: PADDING_SIZE[padding],
-      borderWidth: BORDER[border].width,
-      borderColor: BORDER[border].color,
+      borderWidth: borders[border].width,
+      borderColor: borders[border].color,
       borderRadius: RADIUS_SIZE[radius],
-      backgroundColor: BACKGROUND[background],
+      backgroundColor: bacground[background],
     },
     style,
   ]
@@ -94,9 +101,6 @@ export default function Card({
 }
 
 const styles = StyleSheet.create({
-  base: {
-    borderColor: THEME.colors.BG_SECONDARY,
-  },
   pressed: {
     opacity: 0.85,
   },

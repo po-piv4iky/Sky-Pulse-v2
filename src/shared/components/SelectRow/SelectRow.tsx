@@ -1,4 +1,5 @@
-import { THEME } from '@/shared/theme'
+import { useAppTheme } from '@/shared/theme'
+import type { AppColors } from '@/shared/theme/colors'
 import { Ionicons } from '@expo/vector-icons'
 import { useEffect, useState } from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
@@ -42,14 +43,17 @@ export default function SelectRow<T extends string>({
   selectedValue,
   onButtonSelect,
 }: SelectRowProps<T>) {
+  const { colors } = useAppTheme()
+  const styles = createStyles(colors)
+
   const [trackWidth, setTrackWidth] = useState(0)
 
-  const selectedIndex = Math.max(
-    0,
-    buttons.findIndex((button) => button.value === selectedValue),
-  )
+  const foundIndex = buttons.findIndex((button) => button.value === selectedValue)
 
-  const segmentWidth = buttons.length > 0 ? trackWidth / buttons.length : 0
+  const selectedIndex = Math.max(0, foundIndex)
+
+  const segmentWidth =
+    buttons.length > 0 ? Math.max(0, trackWidth - 8) / buttons.length : 0
 
   const translateX = useSharedValue(0)
 
@@ -76,7 +80,7 @@ export default function SelectRow<T extends string>({
           <Pressable
             onPress={onPress}
             accessibilityRole="button"
-            accessibilityLabel={`${title}: ${value}`}
+            accessibilityLabel={`${title}: ${value ?? ''}`}
             accessibilityState={{ expanded: isOpen }}
             style={styles.valueContainer}
           >
@@ -92,17 +96,12 @@ export default function SelectRow<T extends string>({
             onLayout={(event) => {
               setTrackWidth(event.nativeEvent.layout.width)
             }}
+            accessibilityRole="radiogroup"
           >
-            {segmentWidth > 0 && (
+            {segmentWidth > 0 && buttons.length > 0 && (
               <Animated.View
                 pointerEvents="none"
-                style={[
-                  styles.activeIndicator,
-                  {
-                    width: segmentWidth,
-                  },
-                  indicatorStyle,
-                ]}
+                style={[styles.activeIndicator, { width: segmentWidth }, indicatorStyle]}
               />
             )}
 
@@ -132,82 +131,84 @@ export default function SelectRow<T extends string>({
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingVertical: 10,
-  },
+const createStyles = (colors: AppColors) =>
+  StyleSheet.create({
+    container: {
+      paddingVertical: 10,
+    },
 
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    minHeight: 34,
-  },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+      minHeight: 34,
+    },
 
-  iconContainer: {
-    width: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    iconContainer: {
+      width: 22,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
 
-  title: {
-    flex: 1,
-    fontSize: 14,
-  },
+    title: {
+      flex: 1,
+      fontSize: 14,
+      color: colors.TEXT_PRIMARY,
+    },
 
-  valueContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
+    valueContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 6,
+    },
 
-  value: {
-    color: THEME.colors.TEXT_SECONDARY,
-  },
+    value: {
+      color: colors.TEXT_SECONDARY,
+    },
 
-  segmentedControl: {
-    flexDirection: 'row',
-    position: 'relative',
-    width: 148,
-    flexShrink: 0,
-    padding: 3,
-    borderRadius: 999,
-    backgroundColor: THEME.colors.BG_SECONDARY,
-    borderWidth: 1,
-    borderColor: THEME.colors.BORDER_PRIMARY,
-    overflow: 'hidden',
-  },
+    segmentedControl: {
+      flexDirection: 'row',
+      position: 'relative',
+      width: 148,
+      flexShrink: 0,
+      padding: 3,
+      borderRadius: 999,
+      backgroundColor: colors.BG_SECONDARY,
+      borderWidth: 1,
+      borderColor: colors.BORDER_PRIMARY,
+      overflow: 'hidden',
+    },
 
-  activeIndicator: {
-    position: 'absolute',
-    top: 3,
-    bottom: 3,
-    left: 3,
-    borderRadius: 999,
-    backgroundColor: THEME.colors.BUTTON_PRIMARY_ACTIVE,
-  },
+    activeIndicator: {
+      position: 'absolute',
+      top: 3,
+      bottom: 3,
+      left: 3,
+      borderRadius: 999,
+      backgroundColor: colors.BUTTON_PRIMARY_ACTIVE,
+    },
 
-  segment: {
-    flex: 1,
-    minHeight: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1,
-  },
+    segment: {
+      flex: 1,
+      minHeight: 30,
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1,
+    },
 
-  segmentLabel: {
-    color: THEME.colors.TEXT_SECONDARY,
-    fontSize: 12,
-    fontWeight: '500',
-  },
+    segmentLabel: {
+      color: colors.TEXT_SECONDARY,
+      fontSize: 12,
+      fontWeight: '500',
+    },
 
-  selectedLabel: {
-    color: '#FFFFFF',
-    fontWeight: '600',
-  },
+    selectedLabel: {
+      color: colors.WHITE,
+      fontWeight: '600',
+    },
 
-  divider: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: THEME.colors.BORDER_PRIMARY,
-  },
-})
+    divider: {
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.BORDER_PRIMARY,
+    },
+  })

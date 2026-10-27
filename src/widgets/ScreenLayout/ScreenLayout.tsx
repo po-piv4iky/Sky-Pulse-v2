@@ -1,4 +1,5 @@
 import { GradientBackground } from '@/shared/components/GradientBackground'
+import { useAppTheme } from '@/shared/theme'
 import { usePathname } from 'expo-router'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { Header } from '../../widgets/Header'
@@ -18,9 +19,11 @@ export function ScreenLayout({
   const pathname = usePathname()
   const config =
     SCREEN_CONFIG[pathname as keyof typeof SCREEN_CONFIG] ?? SCREEN_CONFIG['/']
+  const { gradients, colors } = useAppTheme()
+  const backgroundGradient = gradients[config.gradient]
   return (
-    <GradientBackground style={{ flex: 1, paddingTop: 20 }} colors={config.gradient}>
-      <Header config={config} />
+    <GradientBackground style={{ flex: 1, paddingTop: 20 }} colors={backgroundGradient}>
+      <Header config={config} colors={colors} />
 
       {scrollable ? (
         <ScrollView

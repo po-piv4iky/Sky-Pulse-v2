@@ -1,4 +1,4 @@
-import { THEME } from '@/shared/theme'
+import { THEMES } from '@/shared/theme'
 import { LinearGradient, LinearGradientProps } from 'expo-linear-gradient'
 
 type GradientBackgroundProps = Omit<LinearGradientProps, 'colors'> & {
@@ -6,7 +6,7 @@ type GradientBackgroundProps = Omit<LinearGradientProps, 'colors'> & {
 }
 
 export default function GradientBackground({
-  colors = THEME.gradients.BACKGROUND,
+  colors = THEMES.dark.gradients.BACKGROUND,
   start = { x: 0.5, y: 0.5 },
   end = { x: 0.5, y: 1 },
   style,

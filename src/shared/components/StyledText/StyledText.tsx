@@ -1,4 +1,4 @@
-import { THEME } from '@/shared/theme'
+import { useAppTheme } from '@/shared/theme'
 import { TYPOGRAPHY } from '@/shared/theme/typography'
 
 import { Text, TextProps } from 'react-native'
@@ -31,10 +31,11 @@ export default function StyledText({
   style,
   ...props
 }: StyledTextProps) {
+  const { colors } = useAppTheme()
   const textColor = {
-    primary: THEME.colors.TEXT_PRIMARY,
-    secondary: THEME.colors.SECONDARY,
-    error: THEME.colors.ERROR,
+    primary: colors.TEXT_PRIMARY,
+    secondary: colors.SECONDARY,
+    error: colors.ERROR,
   }
 
   return (

@@ -1,4 +1,5 @@
-import { THEME } from '@/shared/theme'
+import { useAppTheme } from '@/shared/theme'
+import { AppColors } from '@/shared/theme/colors'
 import { Ionicons } from '@expo/vector-icons'
 import { Pressable, PressableProps, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
@@ -22,10 +23,12 @@ const ICON_SIZE_MAP = {
   large: 28,
 } as const
 
-const COLOR_MAP = {
-  primary: THEME.colors.TEXT_PRIMARY,
-  tertiary: THEME.colors.TEXT_TERTIARY,
-} as const
+function textColor(colors: AppColors) {
+  return {
+    primary: colors.TEXT_PRIMARY,
+    tertiary: colors.TEXT_TERTIARY,
+  } as const
+}
 
 export default function IconButton({
   name,
@@ -35,6 +38,8 @@ export default function IconButton({
   color = 'primary',
   ...props
 }: IconButtonProps) {
+  const { colors } = useAppTheme()
+  const COLOR_MAP = textColor(colors)
   const buttonSize = SIZE_MAP[size]
 
   return (

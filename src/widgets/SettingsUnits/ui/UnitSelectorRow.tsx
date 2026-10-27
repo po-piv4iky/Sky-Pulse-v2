@@ -5,7 +5,8 @@ import { Animated, Easing, Pressable, StyleSheet, View } from 'react-native'
 
 import StyledIcon from '@/shared/components/StyledIcon/StyledIcon'
 import StyledText from '@/shared/components/StyledText/StyledText'
-import { THEME } from '@/shared/theme'
+import { useAppTheme } from '@/shared/theme'
+import type { AppColors } from '@/shared/theme/colors'
 
 interface UnitSelectorRowProps<T extends string> {
   options: readonly T[]
@@ -22,11 +23,15 @@ export default function UnitSelectorRow<T extends string>({
   icon,
   title,
   value,
-  isLast,
+  isLast = false,
 }: UnitSelectorRowProps<T>) {
   const [isOpen, setIsOpen] = useState(false)
   const sheetRef = useRef<BottomSheetModal>(null)
   const rotation = useRef(new Animated.Value(0)).current
+
+  const { colors } = useAppTheme()
+  const styles = createStyles(colors)
+
   useEffect(() => {
     Animated.timing(rotation, {
       toValue: isOpen ? 1 : 0,
@@ -35,10 +40,12 @@ export default function UnitSelectorRow<T extends string>({
       useNativeDriver: true,
     }).start()
   }, [isOpen, rotation])
+
   const arrowRotation = rotation.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '180deg'],
   })
+
   const handleSelect = (option: T) => {
     onSelect(option)
     sheetRef.current?.dismiss()
@@ -50,6 +57,7 @@ export default function UnitSelectorRow<T extends string>({
         onPress={() => sheetRef.current?.present()}
         accessibilityRole="button"
         accessibilityLabel={`${title}: ${value}`}
+        accessibilityState={{ expanded: isOpen }}
         style={[styles.row, !isLast && styles.rowDivider]}
       >
         <StyledIcon name={icon} />
@@ -60,7 +68,7 @@ export default function UnitSelectorRow<T extends string>({
           <StyledText style={styles.value}>{value}</StyledText>
 
           <Animated.View style={{ transform: [{ rotate: arrowRotation }] }}>
-            <Ionicons name="chevron-down" size={18} color="#A8ADBA" />
+            <Ionicons name="chevron-down" size={18} color={colors.TEXT_SECONDARY} />
           </Animated.View>
         </View>
       </Pressable>
@@ -71,9 +79,8 @@ export default function UnitSelectorRow<T extends string>({
         enablePanDownToClose
         onChange={(index) => setIsOpen(index >= 0)}
         onDismiss={() => setIsOpen(false)}
-        backgroundStyle={{
-          backgroundColor: THEME.colors.BG_SECONDARY,
-        }}
+        backgroundStyle={styles.sheetBackground}
+        handleIndicatorStyle={styles.handleIndicator}
       >
         <BottomSheetView style={styles.sheetContent}>
           <StyledText style={styles.sheetTitle}>{title}</StyledText>
@@ -96,11 +103,7 @@ export default function UnitSelectorRow<T extends string>({
                 </StyledText>
 
                 {selected && (
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={22}
-                    color={THEME.colors.BUTTON_PRIMARY_ACTIVE}
-                  />
+                  <Ionicons name="checkmark-circle" size={22} color={colors.PRIMARY} />
                 )}
               </Pressable>
             )
@@ -111,55 +114,65 @@ export default function UnitSelectorRow<T extends string>({
   )
 }
 
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 16,
-    gap: 12,
-  },
-  rowDivider: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: THEME.colors.BORDER_PRIMARY,
-  },
-  title: {
-    flex: 1,
-  },
-  valueContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  value: {
-    color: '#A8ADBA',
-  },
-  sheetContent: {
-    padding: 20,
-    gap: 10,
-  },
-  sheetTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 12,
-  },
-  option: {
-    minHeight: 52,
-    paddingHorizontal: 14,
-    borderRadius: 12,
-    backgroundColor: '#202635',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  selectedOption: {
-    borderWidth: 1,
-    borderColor: THEME.colors.BUTTON_PRIMARY_ACTIVE,
-  },
-  optionText: {
-    fontSize: 16,
-  },
-  selectedOptionText: {
-    fontWeight: '600',
-  },
-})
+const createStyles = (colors: AppColors) =>
+  StyleSheet.create({
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingVertical: 16,
+      gap: 12,
+    },
+    rowDivider: {
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.BORDER_PRIMARY,
+    },
+    title: {
+      flex: 1,
+    },
+    valueContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+    },
+    value: {
+      color: colors.TEXT_SECONDARY,
+    },
+    sheetBackground: {
+      backgroundColor: colors.BG_SECONDARY,
+    },
+    handleIndicator: {
+      backgroundColor: colors.BORDER,
+    },
+    sheetContent: {
+      flex: 1,
+      padding: 20,
+      gap: 10,
+    },
+    sheetTitle: {
+      fontSize: 20,
+      fontWeight: '600',
+      marginBottom: 12,
+      color: colors.TEXT_PRIMARY,
+    },
+    option: {
+      minHeight: 52,
+      paddingHorizontal: 14,
+      borderRadius: 12,
+      backgroundColor: colors.SURFACE,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    selectedOption: {
+      borderWidth: 1,
+      borderColor: colors.BUTTON_PRIMARY_ACTIVE,
+    },
+    optionText: {
+      fontSize: 16,
+      color: colors.TEXT_PRIMARY,
+    },
+    selectedOptionText: {
+      fontWeight: '600',
+    },
+  })

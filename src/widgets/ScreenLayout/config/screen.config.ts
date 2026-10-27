@@ -1,5 +1,3 @@
-import { THEME } from '@/shared/theme'
-
 export const SCREEN_CONFIG = {
   '/': {
     titleKey: 'navigationHeader.home',
@@ -8,7 +6,7 @@ export const SCREEN_CONFIG = {
     buttonSave: true,
     title: 'Current Location',
     showSearch: true,
-    gradient: THEME.gradients.BACKGROUND,
+    gradient: 'BACKGROUND',
   },
 
   '/forecast': {
@@ -18,7 +16,7 @@ export const SCREEN_CONFIG = {
     buttonSave: false,
     title: 'Current City',
     showSearch: false,
-    gradient: THEME.gradients.BACKGROUND_SECONDARY,
+    gradient: 'BACKGROUND_SECONDARY',
   },
 
   '/save': {
@@ -28,7 +26,7 @@ export const SCREEN_CONFIG = {
     buttonSave: false,
     title: 'Saved Cities',
     showSearch: false,
-    gradient: THEME.gradients.BACKGROUND,
+    gradient: 'BACKGROUND',
   },
 
   '/settings': {
@@ -38,6 +36,6 @@ export const SCREEN_CONFIG = {
     buttonSave: false,
     title: 'Settings',
     showSearch: false,
-    gradient: THEME.gradients.BACKGROUND_TERTIARY,
+    gradient: 'BACKGROUND_TERTIARY',
   },
 } as const

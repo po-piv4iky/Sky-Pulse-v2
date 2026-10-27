@@ -1,6 +1,5 @@
 import { DailySummary } from '@/entities/weather/types/dailySummary.types'
 import StyledText from '@/shared/components/StyledText/StyledText'
-import { THEME } from '@/shared/theme'
 import { Image, StyleSheet, View } from 'react-native'
 
 interface Props {
@@ -50,7 +49,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
 
     borderBottomWidth: 1,
-    borderBottomColor: THEME.colors.BORDER_PRIMARY,
   },
   lastItem: {
     borderBottomWidth: 0,

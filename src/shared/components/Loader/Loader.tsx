@@ -1,4 +1,4 @@
-import { THEME } from '@/shared/theme'
+import { useAppTheme } from '@/shared/theme'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 
 type LoaderProps = {
@@ -7,14 +7,11 @@ type LoaderProps = {
   fullScreen?: boolean
 }
 
-export default function Loader({
-  size = 'large',
-  color = THEME.colors.PRIMARY,
-  fullScreen = false,
-}: LoaderProps) {
+export default function Loader({ size = 'large', fullScreen = false }: LoaderProps) {
+  const { colors } = useAppTheme()
   return (
     <View style={[styles.container, fullScreen && styles.fullScreen]}>
-      <ActivityIndicator size={size} color={color} />
+      <ActivityIndicator size={size} color={colors.PRIMARY} />
     </View>
   )
 }

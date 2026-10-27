@@ -1,4 +1,4 @@
-import { THEME } from '@/shared/theme'
+import { useAppTheme } from '@/shared/theme'
 import { Ionicons } from '@expo/vector-icons'
 import { Pressable, PressableProps, StyleProp, ViewStyle } from 'react-native'
 import StyledText from '../StyledText/StyledText'
@@ -15,9 +15,10 @@ export default function StyledButton({
   style,
   ...props
 }: StyledButtonProps) {
+  const { colors } = useAppTheme()
   return (
     <Pressable style={style} {...props}>
-      {icon && <Ionicons name={icon} size={24} color={THEME.colors.PRIMARY} />}
+      {icon && <Ionicons name={icon} size={24} color={colors.PRIMARY} />}
       {label && <StyledText>{label}</StyledText>}
     </Pressable>
   )
