@@ -4,14 +4,16 @@ import { BottomSheetModal } from '@expo/ui/community/bottom-sheet'
 import { useRef } from 'react'
 import { StyleSheet } from 'react-native'
 import { useChangeLanguage } from '../model/useChangeLanguage'
+import { useTranslation } from 'react-i18next'
 
 export default function LanguageSelector() {
+  const { t } = useTranslation()
   const { currentLanguage, changeLanguage } = useChangeLanguage()
   const sheetRef = useRef<BottomSheetModal>(null)
   return (
     <>
       <SelectRow
-        title="Language"
+        title={t('settings.languageTitle')}
         icon="globe-outline"
         value={currentLanguage}
         onPress={() => sheetRef.current?.present()}

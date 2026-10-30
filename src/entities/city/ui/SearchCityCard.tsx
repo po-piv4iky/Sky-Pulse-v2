@@ -3,7 +3,7 @@ import Card from '@/shared/components/Card/Card'
 import StyledIcon from '@/shared/components/StyledIcon/StyledIcon'
 import StyledText from '@/shared/components/StyledText/StyledText'
 import { getWeatherIconUrl } from '@/shared/lib/getWeatherIconUrl'
-import { THEME } from '@/shared/theme'
+import { useAppTheme } from '@/shared/theme'
 import { Coordinates } from '@/shared/types/coordinates.types'
 import { Image, StyleSheet, View } from 'react-native'
 
@@ -14,6 +14,7 @@ interface Props {
 
 export default function SearchCityCard({ cityItem, onPress }: Props) {
   const iconUrl = getWeatherIconUrl(cityItem.icon)
+  const { colors } = useAppTheme()
 
   return (
     <Card
@@ -23,7 +24,7 @@ export default function SearchCityCard({ cityItem, onPress }: Props) {
       background="dark"
     >
       <View style={styles.left}>
-        <StyledIcon name="search" circle color={THEME.colors.TEXT_SECONDARY} />
+        <StyledIcon name="search" circle color={colors.TEXT_SECONDARY} />
 
         <View style={styles.cityBlock}>
           <StyledText variant="titleMd" numberOfLines={2} ellipsizeMode="tail">

@@ -1,14 +1,15 @@
-import { THEME } from '@/shared/theme'
+import { useAppTheme } from '@/shared/theme'
 import { StyleSheet, TextInput, TextInputProps } from 'react-native'
 
 type StyledInputProps = TextInputProps & {}
 
 export default function StyledInput({ placeholder, ...props }: StyledInputProps) {
+  const { colors } = useAppTheme()
   return (
     <TextInput
       style={[styles.input, props.style]}
       placeholder={placeholder}
-      placeholderTextColor={THEME.colors.PLACEHOLDER}
+      placeholderTextColor={colors.PLACEHOLDER}
       {...props}
     />
   )

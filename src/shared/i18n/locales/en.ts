@@ -69,6 +69,15 @@ export const en = {
       title: 'Settings',
       language: 'Language',
       units: 'Units',
+      appearance: 'Appearance',
+      themeDark: 'Dark',
+      themeLight: 'Light',
+      unitsMetric: 'Units & Measurements',
+      themeTitle: 'Theme',
+      languageTitle: 'Language',
+      temperatureTitle: 'temperature',
+      windTitle: 'wind',
+      pressureTitle: 'pressure',
     },
 
     navigationHeader: {

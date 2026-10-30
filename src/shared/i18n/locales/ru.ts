@@ -69,6 +69,15 @@ export const ru = {
       title: 'Настройки',
       language: 'Язык',
       units: 'Единицы измерения',
+      appearance: 'Оформление',
+      themeDark: 'Тёмная',
+      themeLight: 'Светлая',
+      unitsMetric: 'Единицы измерения',
+      themeTitle: 'Тема',
+      languageTitle: 'Язык',
+      temperatureTitle: 'температура',
+      windTitle: 'ветер',
+      pressureTitle: 'давление',
     },
 
     navigationHeader: {

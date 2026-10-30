@@ -12,11 +12,10 @@ import ForecastCard from './ForecastCard'
 export function DailyForecast() {
   const weatherForecast = useWeatherStore((s) => s.weatherForecast)
   const weather = useWeatherStore((s) => s.weather)
+  const { i18n, t } = useTranslation()
   if (!weatherForecast || !weather) return
 
-  const { i18n } = useTranslation()
   const language = i18n.language as Language
-  const { t } = useTranslation()
   const groupedForecast = groupForecastByDay(weatherForecast, weather.timezone)
   const dailyForecast = getDailySummary(groupedForecast, language)
 
